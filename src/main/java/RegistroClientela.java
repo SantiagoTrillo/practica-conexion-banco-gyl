@@ -27,4 +27,14 @@ public class RegistroClientela implements InterfaceClientela {
                 .map(Cliente::getSaldo)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
+
+    @Override
+    public HashMap<String, Cliente> getClientelaMap(){
+        return new HashMap<>(clientelaMap);
+    }
+
+    @Override
+    public int getMapSize(){
+        return clientelaMap.size();
+    }
 }

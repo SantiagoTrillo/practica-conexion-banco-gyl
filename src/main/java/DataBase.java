@@ -6,20 +6,28 @@ import java.util.List;
 //Todas estas inyecciones son hard-codeadas a modo de ejemplo
 
 public class DataBase {
-    public void DataBase(){
-        Sucursal objBanco = cargarUnaSucursal();
+    private List<Sucursal> sucursalList;
+    public DataBase(){
+        sucursalList = new ArrayList<>();
+        sucursalList.add(cargarCentral());
         //cargarSucursales();
         //cargarAdmin();
-        cargarClientes(objBanco.registro);
+        cargarClientes(sucursalList.get(0).registro);
     }
 
-    private Sucursal cargarUnaSucursal(){
+    public List<Sucursal> getSucursalList() {
+        return sucursalList;
+    }
+
+    public Sucursal getCentral(){
+        return sucursalList.get(0);
+    }
+
+    private Sucursal cargarCentral(){
         return new Sucursal("Central","Calle Central 5","14-04-1998", new RegistroClientela());
     }
     private void cargarSucursales(){
-        List<Sucursal> sucursalList = new ArrayList<>();
-
-        sucursalList.add(cargarUnaSucursal());
+        sucursalList.add(cargarCentral());
     }
 
     private void cargarClientes(InterfaceClientela registro) {

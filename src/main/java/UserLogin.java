@@ -25,7 +25,7 @@ public class UserLogin {
     }
 
     public boolean isAdmin() {
-        return admin; //Why?
+        return admin;
     }
 
     private String[] scannerLogIn(){

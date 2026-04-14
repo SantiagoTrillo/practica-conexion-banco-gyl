@@ -1,8 +1,17 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class CUI {
     // Command User Interface
     // Maneja el diseño y los prints de la interfaz
+    private Sucursal sucursal;
+    private DataReader dr;
+
+    public void setSucursal(Sucursal sucursal){
+        this.sucursal = sucursal;
+        this.dr = new DataReader(sucursal.registro);
+    }
+
     public void printLogo(){
         String logo= """
                           ▒▒▒▒                         \s
@@ -32,13 +41,13 @@ public class CUI {
         }
     }
 
-    private void printDataList(String[]data){
+    private void printDataList(ArrayList<String> data){
         printDataList(data, 20);
     }
 
-    private void printDataList(String[] data, int maxEntries){
-        for (int i = 0; i < maxEntries; i++){
-            System.out.println(data[i]);
+    private void printDataList(ArrayList<String> data, int maxEntries){
+        for (int i = 0; i < data.size() && i < maxEntries; i++){
+            System.out.println(data.get(i));
         }
         System.out.println(System.lineSeparator());
     }
@@ -68,6 +77,7 @@ public class CUI {
         optionsMenu[0] = "Consultar perfil de cliente";
         optionsMenu[1] = "Volver";
 
+        printDataList(dr.clientelaToListString());
         switch (scanOptionList(optionsMenu)) {
             case 0 -> clientMenu(); //Nada
             case 1 -> mainMenu();
@@ -109,17 +119,15 @@ public class CUI {
 
 
     public void balMenu() {
-        String[] optionsMenu = new String[4];
-        optionsMenu[0] = "Consultar Lista de Clientes";
-        optionsMenu[1] = "Realizar Transferencia";
-        optionsMenu[2] = "Añadir Nuevo Cliente";
-        optionsMenu[3] = "Balance de todas las cuentas";
+        String[] optionsMenu = new String[1];
+        optionsMenu[0] = "Volver";
+
+        printLogo();
+        System.out.println("$" + dr.getBalTotal());
+        System.out.println("Entre " + dr.getDataMapSize() + " Cuentas");
 
         switch (scanOptionList(optionsMenu)) {
-            case 0 -> clientMenu();
-            case 1 -> transferMenu();
-            case 2 -> newClientMenu();
-            case 3 -> balMenu();
+            case 0 -> mainMenu();
         }
     }
 
