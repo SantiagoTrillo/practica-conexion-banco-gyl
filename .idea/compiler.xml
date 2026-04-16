@@ -7,9 +7,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="Banco" />
-        <module name="integracion" />
         <module name="BankTallerPOOGyL" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="integracion" target="17" />
+    </bytecodeTargetLevel>
   </component>
 </project>
