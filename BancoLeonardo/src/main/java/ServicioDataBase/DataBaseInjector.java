@@ -1,3 +1,9 @@
+package ServicioDataBase;
+
+import ModeloBanco.Cliente.Cliente;
+import ModeloBanco.Sucursal;
+import ModeloBanco.Transferencia.Transferencia;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -5,9 +11,9 @@ import java.util.List;
 //Esta clase simula datos persistentes históricos a la fecha de inicializar el proyecto
 //Todas estas inyecciones son hard-codeadas a modo de ejemplo
 
-public class DataBase {
+public class DataBaseInjector {
     private List<Sucursal> sucursalList;
-    public DataBase(){
+    public DataBaseInjector(){
         sucursalList = new ArrayList<>();
         cargarSucursales();
         //cargarTests();

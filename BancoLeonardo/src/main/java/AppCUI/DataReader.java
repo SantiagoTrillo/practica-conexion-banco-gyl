@@ -1,3 +1,5 @@
+package AppCUI;
+
 import ModeloBanco.Cliente.Cliente;
 import ModeloBanco.Cliente.InterfaceClientela;
 

@@ -1,6 +1,10 @@
+import AppCUI.CUI;
+import AppCUI.UserLogin;
+import ServicioDataBase.DataBaseInjector;
+
 public class Main {
     public static void main(String[] args) {
-        DataBase objDB = new DataBase();
+        DataBaseInjector objDB = new DataBaseInjector();
         CUI objCUI = new CUI();
         while (true){
         UserLogin objUserLogin = new UserLogin(objDB);

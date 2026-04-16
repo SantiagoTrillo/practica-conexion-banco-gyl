@@ -11,8 +11,5 @@
         <module name="BankTallerPOOGyL" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="integracion (1)" target="17" />
-    </bytecodeTargetLevel>
   </component>
 </project>

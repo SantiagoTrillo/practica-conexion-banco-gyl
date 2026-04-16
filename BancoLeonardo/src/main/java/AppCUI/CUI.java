@@ -1,5 +1,7 @@
-import ModeloBanco.*;
+package AppCUI;
+
 import ModeloBanco.Cliente.Cliente;
+import ModeloBanco.Sucursal;
 
 import java.util.ArrayList;
 import java.util.Scanner;

@@ -1,5 +1,8 @@
+package AppCUI;
+
 import ModeloBanco.Transferencia.InterfaceTransferencia;
 import ModeloBanco.Transferencia.Transferencia;
+import ModeloBanco.Cliente.Cliente;
 
 import java.util.ArrayList;
 
