@@ -10,8 +10,8 @@ public class DataBase {
     public DataBase(){
         sucursalList = new ArrayList<>();
         cargarSucursales();
-        cargarTests();
-        cargarDuplicados();
+        //cargarTests();
+        //cargarDuplicados();
         cargarClientes(getCentral());
     }
 
@@ -32,6 +32,7 @@ public class DataBase {
     }
     private void cargarSucursales(){
         sucursalList.add(cargarCentral());
+        sucursalList.add(new Sucursal("Parque Patricios", "MonteAgudo 255", "16-04-2026"));
     }
 
     private void cargarDuplicados(){
@@ -79,7 +80,7 @@ public class DataBase {
                     .saldo(BigDecimal.valueOf(8008))
                     .build(iSucursal.registro);
 
-            new Cliente.Builder("admin doble", "admin", "ADMIN", "DOBLE", "TESTSET")
+            new Cliente.Builder("adminadmin", "admin", "ADMIN", "DOBLE", "TESTSET")
                     .tipoCuenta("ADMIN")
                     .permisos("ADMIN")
                     .saldo(BigDecimal.valueOf(8888))
@@ -134,7 +135,7 @@ public class DataBase {
                 .tipoCuenta("Empresa")
                 .saldo(BigDecimal.valueOf(1000))
                 .build(sucursal.registro);
-        new Cliente.Builder("admin", "valido", "Admin", "Admin", "Adminlandia")
+        new Cliente.Builder("admin", "central", "Admin", "Admin", "Adminlandia")
                 .tipoCuenta("ADMIN")
                 .permisos("ADMIN")
                 .build(sucursal.registro);
