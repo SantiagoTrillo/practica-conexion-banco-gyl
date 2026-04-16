@@ -146,6 +146,10 @@ public class DataBaseInjector {
                 .permisos("ADMIN")
                 .build(sucursal.registro);
 
+        new Transferencia.Builder(true, objEmpresa, BigDecimal.valueOf(5000))
+                .fecha("12-04-2026 00:15")
+                .acreditar(sucursal.auditor);
+
         new Transferencia.Builder(objEmpresa, objJuan,BigDecimal.valueOf(200))
                 .fecha("13-04-2026 16:45")
                 .acreditar(sucursal.auditor);

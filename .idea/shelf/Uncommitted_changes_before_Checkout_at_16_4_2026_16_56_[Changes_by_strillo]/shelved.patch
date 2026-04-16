@@ -1,0 +1,35 @@
+Index: integracion/src/main/java/dominio/MediadorBancoDefault.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package dominio;\r\n\r\npublic class MediadorBancoDefault implements MediadorBanco{\r\n    private Banco bancoSanti;\r\n    private DataBase bancoLeo;\r\n\r\n    public MediadorBancoDefault(Banco bancoSanti, DataBase bancoLeo) {\r\n        this.bancoSanti = bancoSanti;\r\n        this.bancoLeo = bancoLeo;\r\n    }\r\n\r\n    @Override\r\n    public void transferir(String transferente, String transferido, double monto) {\r\n\r\n    }\r\n\r\n    @Override\r\n    public void buscarCuenta(String nombreBuscado) {\r\n\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/integracion/src/main/java/dominio/MediadorBancoDefault.java b/integracion/src/main/java/dominio/MediadorBancoDefault.java
+--- a/integracion/src/main/java/dominio/MediadorBancoDefault.java	(revision fea1daf07ba7ad4a9524e9fa15eef56375fbc63f)
++++ b/integracion/src/main/java/dominio/MediadorBancoDefault.java	(date 1776368738340)
+@@ -1,17 +1,20 @@
+ package dominio;
+ 
++import modelo.Banco;
++import ModeloBanco.Sucursal;
++import java.util.ArrayList;
++
+ public class MediadorBancoDefault implements MediadorBanco{
+     private Banco bancoSanti;
+-    private DataBase bancoLeo;
++    private ArrayList<ModeloBanco.Sucursal> sucursalesLeo;
+ 
+-    public MediadorBancoDefault(Banco bancoSanti, DataBase bancoLeo) {
++    public MediadorBancoDefault(Banco bancoSanti, ArrayList<ModeloBanco.Sucursal> sucursalesLeo) {
+         this.bancoSanti = bancoSanti;
+-        this.bancoLeo = bancoLeo;
++        this.sucursalesLeo = sucursalesLeo;
+     }
+ 
+     @Override
+     public void transferir(String transferente, String transferido, double monto) {
+-
+     }
+ 
+     @Override

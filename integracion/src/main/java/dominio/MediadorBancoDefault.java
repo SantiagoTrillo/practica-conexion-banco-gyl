@@ -1,7 +1,9 @@
 package dominio;
 
-import modelo.Banco;
-import ModeloBanco.Sucursal;
+import ModeloBanco.Cliente.RegistroClientela;
+import modelo.*;
+import ModeloBanco.*;
+
 import java.util.ArrayList;
 
 public class MediadorBancoDefault implements MediadorBanco{
@@ -15,10 +17,28 @@ public class MediadorBancoDefault implements MediadorBanco{
 
     @Override
     public void transferir(String transferente, String transferido, double monto) {
+
     }
 
     @Override
-    public void buscarCuenta(String nombreBuscado) {
+    public Cuenta buscarCuenta(String emailBuscado) {
+        Cuenta cuentaBuscada = null;
 
+        if (emailBuscado != null && !emailBuscado.isBlank()) {
+            for (modelo.Sucursal sucursalIterada : bancoSanti.getSucursales()) {
+                cuentaBuscada = sucursalIterada.buscarCuentaSucursal(emailBuscado);
+                if (cuentaBuscada != null) {
+                    break;
+                }
+            }
+            for (ModeloBanco.Sucursal sucursalIterada : sucursalesLeo) {
+                cuentaBuscada = RegistroClientela.buscarUsername(emailBuscado);
+                if (cuentaBuscada != null) {
+                    break;
+                }
+            }
+        }
+
+        return cuentaBuscada;
     }
 }

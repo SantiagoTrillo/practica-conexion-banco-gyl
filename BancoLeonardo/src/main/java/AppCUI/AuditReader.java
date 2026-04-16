@@ -13,6 +13,7 @@ public class AuditReader {
     }
 
     public String logToString(Transferencia source){
+        switch sourc
         return source.getEmisor().getNombreCompleto() + " -> "
                 + source.getReceptor().getNombreCompleto() + "| $"
                 + source.getMonto().toString() + " | "

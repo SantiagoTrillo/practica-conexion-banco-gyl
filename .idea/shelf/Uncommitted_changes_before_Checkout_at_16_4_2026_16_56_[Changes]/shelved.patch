@@ -1,0 +1,425 @@
+Index: BancoLeonardo/src/main/java/ModeloBanco/Cliente/InterfaceClientela.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import java.math.BigDecimal;\r\nimport java.util.HashMap;\r\n\r\npublic interface InterfaceClientela {\r\n    Cliente cargar(String username, Cliente cliente);\r\n\r\n    Cliente buscarUsername(String username);\r\n\r\n    BigDecimal getBalTotal();\r\n\r\n    HashMap<String, Cliente> getClientelaMap();\r\n\r\n    int getMapSize();\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/BancoLeonardo/src/main/java/ModeloBanco/Cliente/InterfaceClientela.java b/BancoLeonardo/src/main/java/ModeloBanco/Cliente/InterfaceClientela.java
+--- a/BancoLeonardo/src/main/java/ModeloBanco/Cliente/InterfaceClientela.java	(revision fea1daf07ba7ad4a9524e9fa15eef56375fbc63f)
++++ b/BancoLeonardo/src/main/java/ModeloBanco/Cliente/InterfaceClientela.java	(date 1776369121057)
+@@ -1,3 +1,5 @@
++package ModeloBanco.Cliente;
++
+ import java.math.BigDecimal;
+ import java.util.HashMap;
+ 
+Index: BancoLeonardo/src/main/java/AppCUI/AuditReader.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import ModeloBanco.Transferencia.InterfaceTransferencia;\r\nimport ModeloBanco.Transferencia.Transferencia;\r\n\r\nimport java.util.ArrayList;\r\n\r\npublic class AuditReader {\r\n    InterfaceTransferencia source;\r\n    public AuditReader(InterfaceTransferencia source){\r\n        this.source = source;\r\n    }\r\n\r\n    public String logToString(Transferencia source){\r\n        return source.getEmisor().getNombreCompleto() + \" -> \"\r\n                + source.getReceptor().getNombreCompleto() + \"| $\"\r\n                + source.getMonto().toString() + \" | \"\r\n                + source.getFecha();\r\n    }\r\n\r\n    public ArrayList<String> auditToListString(){\r\n        ArrayList<Transferencia> auditList = source.getAuditoria();\r\n        ArrayList<String> lista = new ArrayList<>();\r\n        auditList.forEach(c -> lista.add(logToString(c)));\r\n        return lista;\r\n    }\r\n\r\n    public int getDataMapSize(){\r\n        return source.getLogSize();\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/BancoLeonardo/src/main/java/AppCUI/AuditReader.java b/BancoLeonardo/src/main/java/AppCUI/AuditReader.java
+--- a/BancoLeonardo/src/main/java/AppCUI/AuditReader.java	(revision fea1daf07ba7ad4a9524e9fa15eef56375fbc63f)
++++ b/BancoLeonardo/src/main/java/AppCUI/AuditReader.java	(date 1776369318491)
+@@ -1,5 +1,8 @@
++package AppCUI;
++
+ import ModeloBanco.Transferencia.InterfaceTransferencia;
+ import ModeloBanco.Transferencia.Transferencia;
++import ModeloBanco.Cliente.Cliente;
+ 
+ import java.util.ArrayList;
+ 
+Index: BancoLeonardo/src/main/java/AppCUI/CUI.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import ModeloBanco.*;\r\nimport ModeloBanco.Cliente.Cliente;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.Scanner;\r\n\r\npublic class CUI {\r\n    // Command User Interface\r\n    // Maneja el diseño y los prints de la interfaz\r\n    private Sucursal sucursal;\r\n    private UserLogin activeUser;\r\n    private DataReader dr;\r\n    private AuditReader ar;\r\n\r\n    public void setActiveUser(UserLogin user){\r\n        this.activeUser = user;\r\n        setSucursal(this.activeUser.getSucursal());\r\n    }\r\n\r\n    public void setSucursal(Sucursal sucursal){\r\n        this.sucursal = sucursal;\r\n        this.dr = new DataReader(sucursal.registro);\r\n        this.ar = new AuditReader(sucursal.auditor);\r\n    }\r\n\r\n    public void printLogo(){\r\n        System.out.println(sucursal.getLogo());\r\n    }\r\n\r\n    private void printOptionList(String[] options){\r\n        System.out.printf(\"Elija un comando:%n\");\r\n        for (int i = 0; i < options.length; i++) {\r\n            System.out.println(i+1 + \" - \" + options[i]);\r\n        }\r\n    }\r\n\r\n    private void printDataList(ArrayList<String> data){\r\n        printDataList(data, 20);\r\n    }\r\n\r\n    private void printDataList(ArrayList<String> data, int maxEntries){\r\n        for (int i = 0; i < data.size() && i < maxEntries; i++){\r\n            System.out.println(data.get(i));\r\n        }\r\n        System.out.println(System.lineSeparator());\r\n    }\r\n\r\n    private String scanValidate(){\r\n        Scanner sc = new Scanner(System.in);\r\n        return sc.nextLine();\r\n    }\r\n\r\n    private int scanOptionList(String[] options){\r\n        Scanner sc = new Scanner(System.in);\r\n        printOptionList(options);\r\n\r\n        int userChoice;\r\n        do {\r\n            while (!sc.hasNextInt()) {\r\n                System.out.println(\"Error: No es un número.\");\r\n                sc.next();\r\n                System.out.print(\"Elija un comando válido: \");\r\n            }\r\n            userChoice = sc.nextInt();\r\n            if (userChoice <= 0 || userChoice > options.length) {\r\n                System.out.println(\"Error: Comando no válido.\");\r\n                System.out.print(\"Elija un comando válido: \");\r\n            }\r\n        } while (userChoice <= 0 || userChoice > options.length);\r\n        return userChoice - 1;\r\n    }\r\n\r\n    public void clientMenu() {\r\n        String[] optionsMenu = new String[2];\r\n        optionsMenu[0] = \"Consultar perfil de cliente\";\r\n        optionsMenu[1] = \"Volver\";\r\n\r\n        printDataList(dr.clientelaToListString());\r\n        switch (scanOptionList(optionsMenu)) {\r\n            case 0 -> clientMenu(); //Nada\r\n            case 1 -> mainMenu();\r\n        }\r\n    }\r\n\r\n    public void transferMenu() {\r\n        String[] optionsLabel = {\"Seleccionar Emisor: \", \"Seleccionar Destino: \", \"Establecer Monto: \", \"Volver\"};\r\n        String[] optionsMenu = new String[4];\r\n        for (int i = 0; i < optionsLabel.length; i++) {\r\n            optionsMenu[i] = optionsLabel[i];\r\n        }\r\n\r\n        printDataList(ar.auditToListString());\r\n        switch (scanOptionList(optionsMenu)) {\r\n            case 0 -> clientMenu();\r\n            case 1 -> transferMenu();\r\n            case 2 -> newClientMenu();\r\n            case 3 -> mainMenu();\r\n        }\r\n    }\r\n\r\n    public void newClientMenu() {\r\n        String[] optionsLabel = {\"Usuario: \", \"Contraseña: \", \"Nombre: \", \"Apellido: \", \"Dirección: \", \"Crear cuenta\", \"Volver\"};\r\n        String[] optionsMenu = new String[7];\r\n        String[] optionsValues = new String[5];\r\n        for (int i = 0; i < optionsLabel.length; i++) {\r\n            optionsMenu[i] = optionsLabel[i];\r\n        }\r\n\r\n        int selection = scanOptionList(optionsMenu);\r\n        while (selection != 5 && selection != 6) {\r\n            optionsValues[selection] = scanValidate();\r\n            optionsMenu[selection] = optionsLabel[selection] + optionsValues[selection];\r\n            printOptionList(optionsMenu);\r\n            selection = scanOptionList(optionsMenu);\r\n        }\r\n\r\n        if (selection == 5) {\r\n            new Cliente.Builder(optionsValues[0], optionsValues[1],optionsValues[2],optionsValues[3], optionsValues[4])\r\n                    .build(dr.source);\r\n            System.out.println(\"Sucursal.Cliente cargado con éxito\" + System.lineSeparator());\r\n            newClientMenu();\r\n        } else {\r\n            mainMenu();\r\n        }\r\n    }\r\n\r\n\r\n    public void balMenu() {\r\n        String[] optionsMenu = {\"Volver\"};\r\n\r\n        printLogo();\r\n        System.out.println(\"$\" + dr.getBalTotal());\r\n        System.out.println(\"Entre \" + dr.getDataMapSize() + \" Cuentas\");\r\n\r\n        scanOptionList(optionsMenu);\r\n        mainMenu();\r\n//      Se que comentar código está mal pero me ahorro el switch redundante\r\n//        switch (scanOptionList(optionsMenu)) {\r\n//            case 0 -> mainMenu();\r\n//        }\r\n    }\r\n\r\n\r\n    public void mainMenu(){\r\n        String[] optionsMenu = {\"Clientes\", \"Transferencias\", \"Añadir Nuevo Sucursal.Cliente\", \"Balance Total\", \"Cambiar cuenta\"};\r\n\r\n        printLogo();\r\n        switch(scanOptionList(optionsMenu)){\r\n            case 0 -> clientMenu();\r\n            case 1 -> transferMenu();\r\n            case 2 -> newClientMenu();\r\n            case 3 -> balMenu();\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/BancoLeonardo/src/main/java/AppCUI/CUI.java b/BancoLeonardo/src/main/java/AppCUI/CUI.java
+--- a/BancoLeonardo/src/main/java/AppCUI/CUI.java	(revision fea1daf07ba7ad4a9524e9fa15eef56375fbc63f)
++++ b/BancoLeonardo/src/main/java/AppCUI/CUI.java	(date 1776369016599)
+@@ -1,5 +1,5 @@
+-import ModeloBanco.*;
+ import ModeloBanco.Cliente.Cliente;
++import ModeloBanco.Sucursal;
+ 
+ import java.util.ArrayList;
+ import java.util.Scanner;
+Index: BancoLeonardo/src/main/java/ServicioDataBase/DataBaseInjector.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import java.math.BigDecimal;\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\n\r\n//Esta clase simula datos persistentes históricos a la fecha de inicializar el proyecto\r\n//Todas estas inyecciones son hard-codeadas a modo de ejemplo\r\n\r\npublic class DataBase {\r\n    private List<Sucursal> sucursalList;\r\n    public DataBase(){\r\n        sucursalList = new ArrayList<>();\r\n        cargarSucursales();\r\n        //cargarTests();\r\n        //cargarDuplicados();\r\n        cargarClientes(getCentral());\r\n    }\r\n\r\n    public List<Sucursal> getSucursalList() {\r\n        return sucursalList;\r\n    }\r\n\r\n    public Sucursal getSucursalList(int index){\r\n        return sucursalList.get(index);\r\n    }\r\n\r\n    public Sucursal getCentral(){\r\n        return sucursalList.get(0);\r\n    }\r\n\r\n    private Sucursal cargarCentral(){\r\n        return new Sucursal(\"Central\",\"Calle Central 5\",\"14-04-1998\");\r\n    }\r\n    private void cargarSucursales(){\r\n        sucursalList.add(cargarCentral());\r\n        sucursalList.add(new Sucursal(\"Parque Patricios\", \"MonteAgudo 255\", \"16-04-2026\"));\r\n    }\r\n\r\n    private void cargarDuplicados(){\r\n        Sucursal[] replica = {\r\n                new Sucursal(\"Somos\", \"Anita lava la tina 808\", \"20-02-2002\",\r\n                        \"\"\"\r\n                                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n                                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⣶⣿⣿⣷⣤⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n                                ⠀⠀⠀⠀⠀⠀⠀⣀⣴⣾⣿⣿⣿⠋⣉⣉⠙⣿⣿⣿⣷⣦⣀⠀⠀⠀⠀⠀⠀⠀\r\n                                ⠀⠀⠀⢀⣤⣶⣿⣿⣿⣿⣿⣿⣿⠀⣿⣿⠀⣿⣿⣿⣿⣿⣿⣿⣶⣤⡀⠀⠀⠀\r\n                                ⠀⠀⠀⣤⣤⣤⣤⣤⡄⠀⠀⠀⢀⣠⣿⣿⣤⣤⣄⡀⠀⢠⣤⣤⣤⣤⣤⠀⠀⠀\r\n                                ⠀⠀⠀⠀⣿⣿⣿⠀⠀⠀⢀⣴⣿⡿⠛⠛⠛⠛⠛⠇⠀⠀⠀⣿⣿⣿⠀⠀⠀⠀\r\n                                ⠀⠀⠀⠀⣿⣿⣿⠀⠀⠀⣸⣿⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⠀⠀⠀⠀\r\n                                ⠀⠀⠀⠀⣿⣿⣿⠀⠀⠀⣿⣿⠀⠀⠀⠀⢠⣤⣤⣤⠀⠀⠀⣿⣿⣿⠀⠀⠀⠀\r\n                                ⠀⠀⠀⠀⣿⣿⣿⠀⠀⠀⢹⣿⣆⠀⠀⠀⠀⠀⢸⣿⠀⠀⠀⣿⣿⣿⠀⠀⠀⠀\r\n                                ⠀⠀⠀⠀⣿⣿⣿⠀⠀⠀⠀⠻⣿⣷⣤⣤⣤⣤⣾⣿⠀⠀⠀⣿⣿⣿⠀⠀⠀⠀\r\n                                ⠀⠀⠀⠀⣿⣿⣿⠀⠀⠀⠀⠀⠈⠙⣿⣿⠛⠛⠉⠁⠀⠀⠀⣿⣿⣿⠀⠀⠀⠀\r\n                                ⠀⠀⠀⠛⠛⠛⠛⠛⠃⠀⠀⠀⠀⠀⣿⣿⠀⠀⠀⠀⠀⠘⠛⠛⠛⠛⠛⠀⠀⠀\r\n                                ⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠉⠉⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀\r\n                                ⠀⢰⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⡆⠀\r\n                                ⠀⠈⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠁⠀\r\n                                \"\"\"),\r\n                new Sucursal(\"somoS\", \"808 anit al aval atinA\",\"2002-20-02\",\r\n                        \"\"\"\r\n                                ⠀⠁⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠈⠀\r\n                                ⠀⡆⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⢰⠀\r\n                                ⠀⠀⡇⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠉⠉⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢸⠀⠀\r\n                                ⠀⠀⠀⠛⠛⠛⠛⠛⠘⠀⠀⠀⠀⠀⣿⣿⠀⠀⠀⠀⠀⠃⠛⠛⠛⠛⠛⠀⠀⠀\r\n                                ⠀⠀⠀⠀⣿⣿⣿⠀⠀⠀⠁⠉⠛⠛⣿⣿⠙⠈⠀⠀⠀⠀⠀⣿⣿⣿⠀⠀⠀⠀\r\n                                ⠀⠀⠀⠀⣿⣿⣿⠀⠀⠀⣿⣾⣤⣤⣤⣤⣷⣿⠻⠀⠀⠀⠀⣿⣿⣿⠀⠀⠀⠀\r\n                                ⠀⠀⠀⠀⣿⣿⣿⠀⠀⠀⣿⢸⠀⠀⠀⠀⠀⣆⣿⢹⠀⠀⠀⣿⣿⣿⠀⠀⠀⠀\r\n                                ⠀⠀⠀⠀⣿⣿⣿⠀⠀⠀⣤⣤⣤⢠⠀⠀⠀⠀⣿⣿⠀⠀⠀⣿⣿⣿⠀⠀⠀⠀\r\n                                ⠀⠀⠀⠀⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠋⣿⣸⠀⠀⠀⣿⣿⣿⠀⠀⠀⠀\r\n                                ⠀⠀⠀⠀⣿⣿⣿⠀⠀⠀⠇⠛⠛⠛⠛⠛⡿⣿⣴⢀⠀⠀⠀⣿⣿⣿⠀⠀⠀⠀\r\n                                ⠀⠀⠀⣤⣤⣤⣤⣤⢠⠀⡀⣄⣤⣤⣿⣿⣠⢀⠀⠀⠀⡄⣤⣤⣤⣤⣤⠀⠀⠀\r\n                                ⠀⠀⠀⡀⣤⣶⣿⣿⣿⣿⣿⣿⣿⠀⣿⣿⠀⣿⣿⣿⣿⣿⣿⣿⣶⣤⢀⠀⠀⠀\r\n                                ⠀⠀⠀⠀⠀⠀⠀⣀⣦⣷⣿⣿⣿⠙⣉⣉⠋⣿⣿⣿⣾⣴⣀⠀⠀⠀⠀⠀⠀⠀\r\n                                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⣷⣿⣿⣶⣤⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n                                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n                                \"\"\")\r\n        };\r\n\r\n        for (Sucursal iSucursal: replica){\r\n            new Cliente.Builder(\"dupli\",\"dupli\",\"Anita\",\"Latina\",\"Radar 69\")\r\n                    .saldo(BigDecimal.valueOf(8008))\r\n                    .build(iSucursal.registro);\r\n\r\n            new Cliente.Builder(\"adminadmin\", \"admin\", \"ADMIN\", \"DOBLE\", \"TESTSET\")\r\n                    .tipoCuenta(\"ADMIN\")\r\n                    .permisos(\"ADMIN\")\r\n                    .saldo(BigDecimal.valueOf(8888))\r\n                    .build(iSucursal.registro);\r\n        }\r\n\r\n        sucursalList.addAll(List.of(replica));\r\n    }\r\n\r\n    private void cargarTests() {\r\n        Sucursal objSucursalTest =\r\n                new Sucursal(\"Test\", \"Calle Test\",\"01-01-1980\",\r\n                        \"\"\"\r\n                                TEST TEST TEST TEST TEST TEST TEST TEST\r\n                                TEST TEST                     TEST TEST\r\n                                TEST TEST                     TEST TEST\r\n                                TEST TEST TEST           TEST TEST TEST\r\n                                TEST TEST TEST           TEST TEST TEST\r\n                                TEST TEST TEST           TEST TEST TEST\r\n                                TEST TEST TEST           TEST TEST TEST\r\n                                TEST TEST TEST TEST TEST TEST TEST TEST\r\n                                \"\"\");\r\n\r\n        new Cliente.Builder(\"testuser\",\"123\",\"Johnny\",\"Test\", \"Area 51.1\")\r\n                .build(objSucursalTest.registro);\r\n        new Cliente.Builder(\"test\",\"123\",\"Test\",\"Admin\", \"QA\")\r\n                .saldo(BigDecimal.valueOf(50000))\r\n                .permisos(\"ADMIN\")\r\n                .tipoCuenta(\"ADMIN\")\r\n                .build(objSucursalTest.registro);\r\n\r\n        new Transferencia.Builder(objSucursalTest.registro.buscarUsername(\"test\"), objSucursalTest.registro.buscarUsername(\"testuser\"), BigDecimal.TEN)\r\n                .acreditar(objSucursalTest.auditor);\r\n\r\n        sucursalList.add(objSucursalTest);\r\n    }\r\n\r\n    private void cargarClientes(Sucursal sucursal) {\r\n        Cliente objJuan=\r\n                new Cliente.Builder(\"juanperez27\", \"juanelmaskpo\",\"Juan\",\"Perez\",\"Calle Falsa 123\")\r\n                .build(sucursal.registro);\r\n        Cliente objAhorrador=\r\n                new Cliente.Builder(\"ahorrista\", \"colchon\",\"Yoni\",\"Gasto\", \"Calle Barata 123\")\r\n                .tipoCuenta(\"Ahorro\")\r\n                .build(sucursal.registro);\r\n        new Cliente.Builder(\"cashdollar\", \"$$$$$$$$\",\"Ricky\", \"Ricon\", \"Puerto Madero 1234\")\r\n                .tipoCuenta(\"Black\")\r\n                .saldo(BigDecimal.valueOf(Float.MAX_VALUE))\r\n                .build(sucursal.registro);\r\n        Cliente objEmpresa=\r\n                new Cliente.Builder(\"islascaimansa\", \"islascaimansa\",\"Islas Caiman\", \"S.A.\", \"Islas Caiman, Islas Caiman\")\r\n                .tipoCuenta(\"Empresa\")\r\n                .saldo(BigDecimal.valueOf(1000))\r\n                .build(sucursal.registro);\r\n        new Cliente.Builder(\"admin\", \"central\", \"Admin\", \"Admin\", \"Adminlandia\")\r\n                .tipoCuenta(\"ADMIN\")\r\n                .permisos(\"ADMIN\")\r\n                .build(sucursal.registro);\r\n\r\n        new Transferencia.Builder(objEmpresa, objJuan,BigDecimal.valueOf(200))\r\n                .fecha(\"13-04-2026 16:45\")\r\n                .acreditar(sucursal.auditor);\r\n        new Transferencia.Builder(objEmpresa, objAhorrador, BigDecimal.valueOf(500))\r\n                .fecha(\"13-04-2026 16:47\")\r\n                .acreditar(sucursal.auditor);\r\n        new Transferencia.Builder(objJuan,objAhorrador, BigDecimal.TEN)\r\n                .fecha(\"14-04-2026 08:08\")\r\n                .acreditar(sucursal.auditor);\r\n    }\r\n}\r\n\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/BancoLeonardo/src/main/java/ServicioDataBase/DataBaseInjector.java b/BancoLeonardo/src/main/java/ServicioDataBase/DataBaseInjector.java
+--- a/BancoLeonardo/src/main/java/ServicioDataBase/DataBaseInjector.java	(revision fea1daf07ba7ad4a9524e9fa15eef56375fbc63f)
++++ b/BancoLeonardo/src/main/java/ServicioDataBase/DataBaseInjector.java	(date 1776369016723)
+@@ -1,3 +1,7 @@
++package ServicioDataBase;
++
++import ModeloBanco.Sucursal;
++
+ import java.math.BigDecimal;
+ import java.util.ArrayList;
+ import java.util.List;
+@@ -5,9 +9,9 @@
+ //Esta clase simula datos persistentes históricos a la fecha de inicializar el proyecto
+ //Todas estas inyecciones son hard-codeadas a modo de ejemplo
+ 
+-public class DataBase {
++public class DataBaseInjector {
+     private List<Sucursal> sucursalList;
+-    public DataBase(){
++    public DataBaseInjector(){
+         sucursalList = new ArrayList<>();
+         cargarSucursales();
+         //cargarTests();
+Index: BancoLeonardo/src/main/java/ModeloBanco/Cliente/Cliente.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import java.math.BigDecimal;\r\n\r\npublic class Cliente {\r\n    private String username;\r\n    private String password;\r\n    private String permisos;\r\n    private String nombre;\r\n    private String apellido;\r\n    private String direccion;\r\n    private String tipoCuenta;\r\n    private BigDecimal saldo;\r\n    private Cliente(Builder builder) {\r\n        this.username = builder.username;\r\n        this.password = builder.password;\r\n        this.permisos = builder.permisos;\r\n        this.nombre = builder.nombre;\r\n        this.apellido = builder.apellido;\r\n        this.direccion = builder.direccion;\r\n        this.tipoCuenta = builder.tipoCuenta;\r\n        this.saldo = builder.saldo;\r\n    }\r\n\r\n    public static class Builder {\r\n        private final String username;\r\n        private final String password;\r\n        private final String nombre;\r\n        private final String apellido;\r\n        private final String direccion;\r\n\r\n\r\n        private String permisos = \"Cliente\";\r\n        private String tipoCuenta = \"Caja Corriente\";\r\n        private BigDecimal saldo = BigDecimal.ZERO; // valor por defecto\r\n\r\n        public Builder(String username, String password, String nombre, String apellido, String direccion) {\r\n            this.username = username;\r\n            this.password = password;\r\n            this.nombre = nombre;\r\n            this.apellido = apellido;\r\n            this.direccion = direccion;\r\n        }\r\n\r\n        public Builder saldo(BigDecimal saldo) {\r\n            this.saldo = saldo;\r\n            return this;\r\n        }\r\n\r\n        public Builder permisos(String permisos){\r\n            this.permisos = permisos;\r\n            return this;\r\n        }\r\n\r\n        public Builder tipoCuenta(String tipo) {\r\n            this.tipoCuenta = tipo;\r\n            return this;\r\n        }\r\n        public Cliente build(InterfaceClientela registro)\r\n        {\r\n            Cliente builtCliente = new Cliente(this);\r\n            registro.cargar((this.username), builtCliente);\r\n            return builtCliente;\r\n        }\r\n    }\r\n\r\n\r\n    public BigDecimal getSaldo() {\r\n        return saldo;\r\n    }\r\n\r\n    public String getApellido() {\r\n        return apellido;\r\n    }\r\n\r\n    public String getNombre() {\r\n        return nombre;\r\n    }\r\n\r\n    public String getDireccion() {\r\n        return direccion;\r\n    }\r\n\r\n    public String getTipoCuenta() {\r\n        return tipoCuenta;\r\n    }\r\n\r\n    public String getNombreCompleto(){\r\n        return nombre + \" \" + apellido;\r\n    }\r\n\r\n    public String getUsername() {\r\n        return username;\r\n    }\r\n\r\n    public String getPassword() {\r\n        return password;\r\n    }\r\n\r\n    public String getPermisos() {\r\n        return permisos;\r\n    }\r\n\r\n    public void sumarSaldo(BigDecimal monto){\r\n        saldo = saldo.add(monto);\r\n    }\r\n\r\n    public void restarSaldo(BigDecimal monto){\r\n        saldo = saldo.subtract(monto);\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/BancoLeonardo/src/main/java/ModeloBanco/Cliente/Cliente.java b/BancoLeonardo/src/main/java/ModeloBanco/Cliente/Cliente.java
+--- a/BancoLeonardo/src/main/java/ModeloBanco/Cliente/Cliente.java	(revision fea1daf07ba7ad4a9524e9fa15eef56375fbc63f)
++++ b/BancoLeonardo/src/main/java/ModeloBanco/Cliente/Cliente.java	(date 1776369121077)
+@@ -1,3 +1,5 @@
++package ModeloBanco.Cliente;
++
+ import java.math.BigDecimal;
+ 
+ public class Cliente {
+Index: BancoLeonardo/src/main/java/ModeloBanco/Sucursal.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>\r\n\r\npublic class Sucursal {\r\n    private String nombre;\r\n    private String direccion;\r\n    private String inauguracion;\r\n    private String logo;\r\n\r\n    public InterfaceClientela registro = new RegistroClientela();\r\n    public InterfaceTransferencia auditor = new RegistroTransferencia();\r\n\r\n    private final String defaultLogo = \"\"\"\r\n                          ▒▒▒▒                         \\s\r\n                          ▒▒░░▒▒▒▒▒▒▒▒▒▒▒▒             \\s\r\n                          ▒▒▒▒░░░░░░░░░░░░▒▒▒▒         \\s\r\n                        ▒▒░░░░░░░░░░░░░░░░░░░░▒▒       \\s\r\n                      ▒▒░░▓▓░░░░░░░░░░░░░░░░░░░░▒▒     \\s\r\n                  ▒▒▒▒░░░░░░░░░░░░░░░░░░░░░░░░░░▒▒     \\s\r\n                  ▒▒░░░░░░░░░░░░░░░░░░░░░░░░░░░░▒▒  ▒▒ \\s\r\n                  ▒▒░░░░░░░░░░░░░░░░░░░░░░░░░░░░▒▒▒▒   \\s\r\n                    ▒▒░░░░░░░░░░░░░░░░░░░░░░░░░░▒▒     \\s\r\n                      ▒▒▒▒░░░░░░░░░░░░░░░░░░░░▒▒       \\s\r\n                          ▒▒░░░░░░░░░░░░░░░░▒▒         \\s\r\n                          ▒▒▒▒░░░░░░░░░░░░▒▒▒▒         \\s\r\n                          ▒▒░░▒▒▒▒▒▒▒▒▒▒▒▒░░▒▒         \\s\r\n                          ▒▒▒▒▒▒        ▒▒▒▒▒▒         \\s\r\n                \r\n                ░░SUCURSAL BANCO DE TALLER POO GYL 2026░░\r\n                \"\"\";\r\n\r\n    public Sucursal(String nombre, String direccion, String inauguracion) {\r\n        this.nombre = nombre;\r\n        this.direccion = direccion;\r\n        this.inauguracion = inauguracion;\r\n        this.logo = this.defaultLogo;\r\n    }\r\n\r\n    public Sucursal(String nombre, String direccion, String inauguracion, String logo) {\r\n        this.nombre = nombre;\r\n        this.direccion = direccion;\r\n        this.inauguracion = inauguracion;\r\n        this.logo = logo;\r\n    }\r\n\r\n\r\n    public String getNombre() {\r\n        return nombre;\r\n    }\r\n\r\n    public String getDireccion() {\r\n        return direccion;\r\n    }\r\n\r\n    public String getInauguracion() {\r\n        return inauguracion;\r\n    }\r\n\r\n    public String getLogo() {\r\n        return logo;\r\n    }\r\n\r\n    public void setLogo(String ASCII) {\r\n        this.logo = ASCII;\r\n    }\r\n\r\n    public String getDefaultLogo() {\r\n        return defaultLogo;\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/BancoLeonardo/src/main/java/ModeloBanco/Sucursal.java b/BancoLeonardo/src/main/java/ModeloBanco/Sucursal.java
+--- a/BancoLeonardo/src/main/java/ModeloBanco/Sucursal.java	(revision fea1daf07ba7ad4a9524e9fa15eef56375fbc63f)
++++ b/BancoLeonardo/src/main/java/ModeloBanco/Sucursal.java	(date 1776369131479)
+@@ -1,4 +1,8 @@
++package ModeloBanco;
+ 
++import ModeloBanco.Cliente.InterfaceClientela;
++import ModeloBanco.Transferencia.InterfaceTransferencia;
++import ModeloBanco.Transferencia.RegistroTransferencia;
+ 
+ public class Sucursal {
+     private String nombre;
+Index: BancoLeonardo/src/main/java/ModeloBanco/Cliente/RegistroClientela.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import java.math.BigDecimal;\r\nimport java.util.Map;\r\nimport java.util.HashMap;\r\nimport java.math.BigDecimal;\r\n\r\n\r\npublic class RegistroClientela implements InterfaceClientela {\r\n    private HashMap<String, Cliente> clientelaMap;\r\n\r\n    public RegistroClientela() {\r\n        this.clientelaMap = new HashMap<>();\r\n    }\r\n\r\n    @Override\r\n    public Cliente cargar(String username, Cliente cliente){\r\n        return clientelaMap.put(username, cliente); // devuelve ultimo valor (o null si nuevo)\r\n    }\r\n\r\n    @Override\r\n    public Cliente buscarUsername(String username){\r\n        return clientelaMap.get(username);\r\n    }\r\n\r\n    @Override\r\n    public BigDecimal getBalTotal(){\r\n        return clientelaMap.values().stream()\r\n                .map(Cliente::getSaldo)\r\n                .reduce(BigDecimal.ZERO, BigDecimal::add);\r\n    }\r\n\r\n    @Override\r\n    public HashMap<String, Cliente> getClientelaMap(){\r\n        return new HashMap<>(clientelaMap);\r\n    }\r\n\r\n    @Override\r\n    public int getMapSize(){\r\n        return clientelaMap.size();\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/BancoLeonardo/src/main/java/ModeloBanco/Cliente/RegistroClientela.java b/BancoLeonardo/src/main/java/ModeloBanco/Cliente/RegistroClientela.java
+--- a/BancoLeonardo/src/main/java/ModeloBanco/Cliente/RegistroClientela.java	(revision fea1daf07ba7ad4a9524e9fa15eef56375fbc63f)
++++ b/BancoLeonardo/src/main/java/ModeloBanco/Cliente/RegistroClientela.java	(date 1776369145180)
+@@ -1,7 +1,10 @@
++package ModeloBanco.Cliente;
++
++import ModeloBanco.Cliente.Cliente;
++import ModeloBanco.Cliente.InterfaceClientela;
++
+ import java.math.BigDecimal;
+-import java.util.Map;
+ import java.util.HashMap;
+-import java.math.BigDecimal;
+ 
+ 
+ public class RegistroClientela implements InterfaceClientela {
+Index: BancoLeonardo/src/main/java/ModeloBanco/Transferencia/InterfaceTransferencia.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import java.util.ArrayList;\r\nimport java.util.HashMap;\r\n\r\npublic interface InterfaceTransferencia {\r\n    boolean cargar(Transferencia log);\r\n\r\n    ArrayList<Transferencia> getAuditoria();\r\n\r\n    int getLogSize();\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/BancoLeonardo/src/main/java/ModeloBanco/Transferencia/InterfaceTransferencia.java b/BancoLeonardo/src/main/java/ModeloBanco/Transferencia/InterfaceTransferencia.java
+--- a/BancoLeonardo/src/main/java/ModeloBanco/Transferencia/InterfaceTransferencia.java	(revision fea1daf07ba7ad4a9524e9fa15eef56375fbc63f)
++++ b/BancoLeonardo/src/main/java/ModeloBanco/Transferencia/InterfaceTransferencia.java	(date 1776369016562)
+@@ -1,5 +1,6 @@
++package ModeloBanco.Transferencia;
++
+ import java.util.ArrayList;
+-import java.util.HashMap;
+ 
+ public interface InterfaceTransferencia {
+     boolean cargar(Transferencia log);
+Index: BancoLeonardo/src/main/java/ModeloBanco/Transferencia/Transferencia.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import java.math.BigDecimal;\r\nimport java.time.LocalDateTime;\r\n\r\npublic class Transferencia {\r\n    private final Cliente emisor;\r\n    private final Cliente receptor;\r\n    private final BigDecimal monto;\r\n    private final String fecha;\r\n\r\n    private Transferencia(Builder builder) {\r\n        this.emisor = builder.emisor;\r\n        this.receptor = builder.receptor;\r\n        this.monto = builder.monto;\r\n        this.fecha = builder.fecha;\r\n    }\r\n\r\n    public static class Builder {\r\n        private final Cliente emisor;\r\n        private final Cliente receptor;\r\n        private final BigDecimal monto;\r\n\r\n        private String fecha = LocalDateTime.now().toString();\r\n\r\n        public Builder(Cliente emisor, Cliente receptor, BigDecimal monto) {\r\n            this.emisor = emisor;\r\n            this.receptor = receptor;\r\n            this.monto = monto;\r\n        }\r\n\r\n        public Transferencia.Builder fecha(String fecha) {\r\n            this.fecha = fecha;\r\n            return this;\r\n        }\r\n\r\n        public Transferencia acreditar(InterfaceTransferencia auditor) {\r\n            //Validador?\r\n            //Próximamente, solo en cines.\r\n            receptor.sumarSaldo(monto);\r\n            emisor.restarSaldo(monto);\r\n            Transferencia builtTransferencia = new Transferencia(this);\r\n            auditor.cargar(builtTransferencia);\r\n            return builtTransferencia;\r\n        }\r\n    }\r\n\r\n    public Cliente getEmisor() {\r\n        return emisor;\r\n    }\r\n\r\n    public Cliente getReceptor() {\r\n        return receptor;\r\n    }\r\n\r\n    public BigDecimal getMonto() {\r\n        return monto;\r\n    }\r\n\r\n    public String getFecha() {\r\n        return fecha;\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/BancoLeonardo/src/main/java/ModeloBanco/Transferencia/Transferencia.java b/BancoLeonardo/src/main/java/ModeloBanco/Transferencia/Transferencia.java
+--- a/BancoLeonardo/src/main/java/ModeloBanco/Transferencia/Transferencia.java	(revision fea1daf07ba7ad4a9524e9fa15eef56375fbc63f)
++++ b/BancoLeonardo/src/main/java/ModeloBanco/Transferencia/Transferencia.java	(date 1776369121011)
+@@ -1,3 +1,5 @@
++package ModeloBanco.Transferencia;
++
+ import java.math.BigDecimal;
+ import java.time.LocalDateTime;
+ 
+Index: BancoLeonardo/src/main/java/ModeloBanco/Transferencia/RegistroTransferencia.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import java.util.ArrayList;\r\n\r\npublic class RegistroTransferencia implements InterfaceTransferencia {\r\n    private ArrayList<Transferencia> auditoria;\r\n\r\n    public RegistroTransferencia() {this.auditoria = new ArrayList<>();}\r\n\r\n    public boolean cargar(Transferencia log){\r\n        return auditoria.add(log);\r\n    }\r\n\r\n    @Override\r\n    public ArrayList<Transferencia> getAuditoria(){\r\n        return auditoria;\r\n    }\r\n\r\n    @Override\r\n    public int getLogSize(){\r\n        return auditoria.size();\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/BancoLeonardo/src/main/java/ModeloBanco/Transferencia/RegistroTransferencia.java b/BancoLeonardo/src/main/java/ModeloBanco/Transferencia/RegistroTransferencia.java
+--- a/BancoLeonardo/src/main/java/ModeloBanco/Transferencia/RegistroTransferencia.java	(revision fea1daf07ba7ad4a9524e9fa15eef56375fbc63f)
++++ b/BancoLeonardo/src/main/java/ModeloBanco/Transferencia/RegistroTransferencia.java	(date 1776369016680)
+@@ -1,3 +1,5 @@
++package ModeloBanco.Transferencia;
++
+ import java.util.ArrayList;
+ 
+ public class RegistroTransferencia implements InterfaceTransferencia {
+Index: .idea/jarRepositories.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/jarRepositories.xml b/.idea/jarRepositories.xml
+new file mode 100644
+--- /dev/null	(date 1776365454040)
++++ b/.idea/jarRepositories.xml	(date 1776365454040)
+@@ -0,0 +1,20 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="RemoteRepositoriesConfiguration">
++    <remote-repository>
++      <option name="id" value="central" />
++      <option name="name" value="Central Repository" />
++      <option name="url" value="https://repo.maven.apache.org/maven2" />
++    </remote-repository>
++    <remote-repository>
++      <option name="id" value="central" />
++      <option name="name" value="Maven Central repository" />
++      <option name="url" value="https://repo1.maven.org/maven2" />
++    </remote-repository>
++    <remote-repository>
++      <option name="id" value="jboss.community" />
++      <option name="name" value="JBoss Community repository" />
++      <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
++    </remote-repository>
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/compiler.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/compiler.xml b/.idea/compiler.xml
+new file mode 100644
+--- /dev/null	(date 1776368454732)
++++ b/.idea/compiler.xml	(date 1776368454732)
+@@ -0,0 +1,15 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="CompilerConfiguration">
++    <annotationProcessing>
++      <profile name="Maven default annotation processors profile" enabled="true">
++        <sourceOutputDir name="target/generated-sources/annotations" />
++        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
++        <outputRelativeToContentRoot value="true" />
++        <module name="Banco" />
++        <module name="integracion" />
++        <module name="BankTallerPOOGyL" />
++      </profile>
++    </annotationProcessing>
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/encodings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/encodings.xml b/.idea/encodings.xml
+new file mode 100644
+--- /dev/null	(date 1776365454034)
++++ b/.idea/encodings.xml	(date 1776365454034)
+@@ -0,0 +1,11 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="Encoding">
++    <file url="file://$PROJECT_DIR$/BancoLeonardo/src/main/java" charset="UTF-8" />
++    <file url="file://$PROJECT_DIR$/BancoLeonardo/src/main/resources" charset="UTF-8" />
++    <file url="file://$PROJECT_DIR$/BancoSantiago/src/main/java" charset="UTF-8" />
++    <file url="file://$PROJECT_DIR$/BancoSantiago/src/main/resources" charset="UTF-8" />
++    <file url="file://$PROJECT_DIR$/integracion/src/main/java" charset="UTF-8" />
++    <file url="file://$PROJECT_DIR$/integracion/src/main/resources" charset="UTF-8" />
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"fa8e6f54-f8d9-4067-9ce1-ab69a48f8c7e\" name=\"Changes\" comment=\"\">\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/.gitignore\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/compiler.xml\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/misc.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/misc.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/vcs.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/vcs.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/integracion/pom.xml\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/integracion/src/main/java/Main.java\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/integracion/src/main/java/dominio/MediadorBanco.java\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/integracion/src/main/java/dominio/MediadorBancoDefault.java\" beforeDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"GitHubPullRequestSearchHistory\"><![CDATA[{\r\n  \"lastFilter\": {\r\n    \"state\": \"OPEN\",\r\n    \"assignee\": \"SantiagoTrillo\"\r\n  }\r\n}]]></component>\r\n  <component name=\"GithubPullRequestsUISettings\"><![CDATA[{\r\n  \"selectedUrlAndAccountId\": {\r\n    \"url\": \"https://github.com/SantiagoTrillo/practica-conexion-banco-gyl.git\",\r\n    \"accountId\": \"4101cab1-70b3-4aa4-9a67-6427daf52bc0\"\r\n  }\r\n}]]></component>\r\n  <component name=\"ProjectColorInfo\"><![CDATA[{\r\n  \"customColor\": \"\",\r\n  \"associatedIndex\": 7\r\n}]]></component>\r\n  <component name=\"ProjectId\" id=\"3CRxSqfsxzSqMG4hSl1mwqtTUEX\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\"><![CDATA[{\r\n  \"keyToString\": {\r\n    \"ModuleVcsDetector.initialDetectionPerformed\": \"true\",\r\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\r\n    \"RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252\": \"true\",\r\n    \"RunOnceActivity.git.unshallow\": \"true\",\r\n    \"RunOnceActivity.typescript.service.memoryLimit.init\": \"true\",\r\n    \"codeWithMe.voiceChat.enabledByDefault\": \"false\",\r\n    \"git-widget-placeholder\": \"master\",\r\n    \"kotlin-language-version-configured\": \"true\",\r\n    \"node.js.detected.package.eslint\": \"true\",\r\n    \"node.js.detected.package.tslint\": \"true\",\r\n    \"node.js.selected.package.eslint\": \"(autodetect)\",\r\n    \"node.js.selected.package.tslint\": \"(autodetect)\",\r\n    \"nodejs_package_manager_path\": \"npm\"\r\n  }\r\n}]]></component>\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"fa8e6f54-f8d9-4067-9ce1-ab69a48f8c7e\" name=\"Changes\" comment=\"\" />\r\n      <created>1776362190678</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1776362190678</updated>\r\n    </task>\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State>\r\n              <option name=\"FILTERS\">\r\n                <map>\r\n                  <entry key=\"branch\">\r\n                    <value>\r\n                      <list>\r\n                        <option value=\"desarrollo-santi\" />\r\n                      </list>\r\n                    </value>\r\n                  </entry>\r\n                </map>\r\n              </option>\r\n            </State>\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision fea1daf07ba7ad4a9524e9fa15eef56375fbc63f)
++++ b/.idea/workspace.xml	(date 1776369319062)
+@@ -1,15 +1,29 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
++  <component name="AutoImportSettings">
++    <option name="autoReloadType" value="SELECTIVE" />
++  </component>
+   <component name="ChangeListManager">
+     <list default="true" id="fa8e6f54-f8d9-4067-9ce1-ab69a48f8c7e" name="Changes" comment="">
+-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
++      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/integracion/pom.xml" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/integracion/src/main/java/Main.java" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/integracion/src/main/java/dominio/MediadorBanco.java" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/integracion/src/main/java/dominio/MediadorBancoDefault.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/BancoLeonardo/src/main/java/AppCUI/AuditReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/BancoLeonardo/src/main/java/AppCUI/AuditReader.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/BancoLeonardo/src/main/java/AppCUI/CUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/BancoLeonardo/src/main/java/AppCUI/CUI.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/BancoLeonardo/src/main/java/AppCUI/UserLogin.java" beforeDir="false" afterPath="$PROJECT_DIR$/BancoLeonardo/src/main/java/AppCUI/UserLogin.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/BancoLeonardo/src/main/java/ModeloBanco/Cliente/Cliente.java" beforeDir="false" afterPath="$PROJECT_DIR$/BancoLeonardo/src/main/java/ModeloBanco/Cliente/Cliente.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/BancoLeonardo/src/main/java/ModeloBanco/Cliente/InterfaceClientela.java" beforeDir="false" afterPath="$PROJECT_DIR$/BancoLeonardo/src/main/java/ModeloBanco/Cliente/InterfaceClientela.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/BancoLeonardo/src/main/java/ModeloBanco/Cliente/RegistroClientela.java" beforeDir="false" afterPath="$PROJECT_DIR$/BancoLeonardo/src/main/java/ModeloBanco/Cliente/RegistroClientela.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/BancoLeonardo/src/main/java/ModeloBanco/Sucursal.java" beforeDir="false" afterPath="$PROJECT_DIR$/BancoLeonardo/src/main/java/ModeloBanco/Sucursal.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/BancoLeonardo/src/main/java/ModeloBanco/Transferencia/InterfaceTransferencia.java" beforeDir="false" afterPath="$PROJECT_DIR$/BancoLeonardo/src/main/java/ModeloBanco/Transferencia/InterfaceTransferencia.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/BancoLeonardo/src/main/java/ModeloBanco/Transferencia/RegistroTransferencia.java" beforeDir="false" afterPath="$PROJECT_DIR$/BancoLeonardo/src/main/java/ModeloBanco/Transferencia/RegistroTransferencia.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/BancoLeonardo/src/main/java/ModeloBanco/Transferencia/Transferencia.java" beforeDir="false" afterPath="$PROJECT_DIR$/BancoLeonardo/src/main/java/ModeloBanco/Transferencia/Transferencia.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/BancoLeonardo/src/main/java/ServicioDataBase/DataBaseInjector.java" beforeDir="false" afterPath="$PROJECT_DIR$/BancoLeonardo/src/main/java/ServicioDataBase/DataBaseInjector.java" afterDir="false" />
++    </list>
++    <list id="2b879b7f-c993-41cc-99d2-62f844e292cf" name="Changes by strillo" comment="">
++      <change beforePath="$PROJECT_DIR$/integracion/src/main/java/dominio/MediadorBancoDefault.java" beforeDir="false" afterPath="$PROJECT_DIR$/integracion/src/main/java/dominio/MediadorBancoDefault.java" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -19,22 +33,22 @@
+   <component name="Git.Settings">
+     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+   </component>
+-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+-  "lastFilter": {
+-    "state": "OPEN",
+-    "assignee": "SantiagoTrillo"
++  <component name="GitHubPullRequestSearchHistory">{
++  &quot;lastFilter&quot;: {
++    &quot;state&quot;: &quot;OPEN&quot;,
++    &quot;assignee&quot;: &quot;SantiagoTrillo&quot;
+   }
+-}]]></component>
+-  <component name="GithubPullRequestsUISettings"><![CDATA[{
+-  "selectedUrlAndAccountId": {
+-    "url": "https://github.com/SantiagoTrillo/practica-conexion-banco-gyl.git",
+-    "accountId": "4101cab1-70b3-4aa4-9a67-6427daf52bc0"
++}</component>
++  <component name="GithubPullRequestsUISettings">{
++  &quot;selectedUrlAndAccountId&quot;: {
++    &quot;url&quot;: &quot;https://github.com/SantiagoTrillo/practica-conexion-banco-gyl.git&quot;,
++    &quot;accountId&quot;: &quot;4101cab1-70b3-4aa4-9a67-6427daf52bc0&quot;
+   }
+-}]]></component>
+-  <component name="ProjectColorInfo"><![CDATA[{
+-  "customColor": "",
+-  "associatedIndex": 7
+-}]]></component>
++}</component>
++  <component name="ProjectColorInfo">{
++  &quot;customColor&quot;: &quot;&quot;,
++  &quot;associatedIndex&quot;: 7
++}</component>
+   <component name="ProjectId" id="3CRxSqfsxzSqMG4hSl1mwqtTUEX" />
+   <component name="ProjectViewState">
+     <option name="hideEmptyMiddlePackages" value="true" />
+@@ -47,14 +61,16 @@
+     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+     "RunOnceActivity.git.unshallow": "true",
+     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
++    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+     "codeWithMe.voiceChat.enabledByDefault": "false",
+-    "git-widget-placeholder": "master",
++    "git-widget-placeholder": "devLeno",
+     "kotlin-language-version-configured": "true",
+     "node.js.detected.package.eslint": "true",
+     "node.js.detected.package.tslint": "true",
+     "node.js.selected.package.eslint": "(autodetect)",
+     "node.js.selected.package.tslint": "(autodetect)",
+-    "nodejs_package_manager_path": "npm"
++    "nodejs_package_manager_path": "npm",
++    "settings.editor.selected.configurable": "CodeWithMe"
+   }
+ }]]></component>
+   <component name="TaskManager">
+@@ -93,4 +109,8 @@
+       </map>
+     </option>
+   </component>
++  <component name="XSLT-Support.FileAssociations.UIState">
++    <expand />
++    <select />
++  </component>
+ </project>
+\ No newline at end of file
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ProjectRootManager\" version=\"2\" project-jdk-name=\"26 (2)\" project-jdk-type=\"JavaSDK\">\r\n    <output url=\"file://$PROJECT_DIR$/out\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	(revision fea1daf07ba7ad4a9524e9fa15eef56375fbc63f)
++++ b/.idea/misc.xml	(date 1776368454743)
+@@ -1,5 +1,15 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
++  <component name="ExternalStorageConfigurationManager" enabled="true" />
++  <component name="MavenProjectsManager">
++    <option name="originalFiles">
++      <list>
++        <option value="$PROJECT_DIR$/BancoLeonardo/pom.xml" />
++        <option value="$PROJECT_DIR$/BancoSantiago/pom.xml" />
++        <option value="$PROJECT_DIR$/integracion/pom.xml" />
++      </list>
++    </option>
++  </component>
+   <component name="ProjectRootManager" version="2" project-jdk-name="26 (2)" project-jdk-type="JavaSDK">
+     <output url="file://$PROJECT_DIR$/out" />
+   </component>
+Index: BancoLeonardo/src/main/java/AppCUI/UserLogin.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import ModeloBanco.*;\r\nimport ModeloBanco.Cliente.Cliente;\r\nimport ServicioDataBase.DataBaseInjector;\r\n\r\nimport java.util.Scanner;\r\n\r\npublic class UserLogin {\r\n    private String user;\r\n    private String pass;\r\n    private boolean admin;\r\n    private Sucursal sucursal;\r\n    private Cliente cuenta;\r\n\r\n    public UserLogin(){\r\n        scannerLogIn();\r\n        System.out.println(\"Bienvenido\");\r\n    }\r\n    public UserLogin(String username, String password){\r\n        validateLogIn(username, password, scannerLogIn());\r\n        this.user = username;\r\n        this.pass = password;\r\n        this.admin = true;\r\n    }\r\n    public UserLogin(DataBaseInjector database){\r\n        validateLogInDB(database,scannerLogIn());\r\n        this.admin = validateAdminPerms(cuenta);\r\n    }\r\n\r\n    public String getUser(){\r\n        return user;\r\n    }\r\n\r\n    public String getPass() {\r\n        return pass; //Why?\r\n    }\r\n\r\n    public Cliente getCuenta() {\r\n        return cuenta;\r\n    }\r\n\r\n    public boolean isAdmin() {\r\n        return admin;\r\n    }\r\n\r\n    public Sucursal getSucursal() {\r\n        return sucursal;\r\n    }\r\n\r\n    private String[] scannerLogIn(){\r\n        Scanner sc = new Scanner(System.in);\r\n        String[] inputs = new String[2];\r\n        System.out.println(\"Introduzca su usuario:\");\r\n        inputs[0] = sc.nextLine();\r\n        System.out.println(\"Introduzca su contraseña:\");\r\n        inputs[1] = sc.nextLine();\r\n\r\n        return inputs;\r\n    }\r\n    private boolean validateLogIn(String username,String password, String[] inputs){\r\n        if (inputs[0].equals(username) && inputs[1].equals(password)){\r\n            System.out.println(\"Bienvenido \"+ username);\r\n            return true;\r\n        } else {\r\n            System.out.println(\"Credenciales incorrectas, intente nuevamente\"+ System.lineSeparator());\r\n            validateLogIn(username,password,scannerLogIn());\r\n        }\r\n        return false; //Por si salgo del bucle de validación\r\n    }\r\n\r\n    private boolean validateLogInDB(DataBaseInjector db, String[] inputs){\r\n        for (Sucursal iSucursal : db.getSucursalList()){\r\n            Cliente iCliente = iSucursal.registro.buscarUsername(inputs[0]);\r\n            if (iCliente != null){\r\n                if (iCliente.getPassword().equals(inputs[1])){\r\n                    System.out.println(\"Bienvenido \" + iCliente.getNombreCompleto());\r\n                    this.sucursal = iSucursal;\r\n                    this.cuenta = iCliente;\r\n                    return true;\r\n                }\r\n                break; //Si existe usuario pero la contraseña está mal, entonces dejo de buscar\r\n            }\r\n        }\r\n        System.out.println(\"Credenciales incorrectas, intente nuevamente\" + System.lineSeparator());\r\n        validateLogInDB(db, scannerLogIn());\r\n\r\n        return false;\r\n    }\r\n\r\n\r\n    private boolean validateAdminPerms(Cliente check){\r\n        return check.getPermisos().equals(\"ADMIN\");\r\n    }\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/BancoLeonardo/src/main/java/AppCUI/UserLogin.java b/BancoLeonardo/src/main/java/AppCUI/UserLogin.java
+--- a/BancoLeonardo/src/main/java/AppCUI/UserLogin.java	(revision fea1daf07ba7ad4a9524e9fa15eef56375fbc63f)
++++ b/BancoLeonardo/src/main/java/AppCUI/UserLogin.java	(date 1776369016793)
+@@ -1,5 +1,5 @@
+-import ModeloBanco.*;
+ import ModeloBanco.Cliente.Cliente;
++import ModeloBanco.Sucursal;
+ import ServicioDataBase.DataBaseInjector;
+ 
+ import java.util.Scanner;
