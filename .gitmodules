@@ -1,0 +1,3 @@
+[submodule "Banco"]
+	path = Banco
+	url = https://github.com/SantiagoTrillo/practica-banco-gyl
