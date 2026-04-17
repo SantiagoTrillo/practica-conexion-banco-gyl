@@ -1,6 +1,6 @@
 package dominio;
 
-import modelo.Cuenta;
+import santiago.modelo.Cuenta;
 
 public interface MediadorBanco {
     void transferir(String transferente, String transferido, double monto);

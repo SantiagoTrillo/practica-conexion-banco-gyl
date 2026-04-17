@@ -1,16 +1,15 @@
 package dominio;
 
-import ModeloBanco.Cliente.RegistroClientela;
-import modelo.*;
-import ModeloBanco.*;
+import leo.ModeloBanco.Cliente.RegistroClientela;
+import santiago.modelo.*;
 
 import java.util.ArrayList;
 
 public class MediadorBancoDefault implements MediadorBanco{
     private final Banco bancoSanti;
-    private final ArrayList<ModeloBanco.Sucursal> sucursalesLeo;
+    private final ArrayList<leo.ModeloBanco.Sucursal> sucursalesLeo;
 
-    public MediadorBancoDefault(Banco bancoSanti, ArrayList<ModeloBanco.Sucursal> sucursalesLeo) {
+    public MediadorBancoDefault(Banco bancoSanti, ArrayList<leo.ModeloBanco.Sucursal> sucursalesLeo) {
         this.bancoSanti = bancoSanti;
         this.sucursalesLeo = sucursalesLeo;
     }
@@ -25,13 +24,13 @@ public class MediadorBancoDefault implements MediadorBanco{
         Cuenta cuentaBuscada = null;
 
         if (emailBuscado != null && !emailBuscado.isBlank()) {
-            for (modelo.Sucursal sucursalIterada : bancoSanti.getSucursales()) {
+            for (santiago.modelo.Sucursal sucursalIterada : bancoSanti.getSucursales()) {
                 cuentaBuscada = sucursalIterada.buscarCuentaSucursal(emailBuscado);
                 if (cuentaBuscada != null) {
                     break;
                 }
             }
-            for (ModeloBanco.Sucursal sucursalIterada : sucursalesLeo) {
+            for (leo.ModeloBanco.Sucursal sucursalIterada : sucursalesLeo) {
                 cuentaBuscada = RegistroClientela.buscarUsername(emailBuscado);
                 if (cuentaBuscada != null) {
                     break;
