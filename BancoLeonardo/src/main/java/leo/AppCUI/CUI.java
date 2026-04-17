@@ -2,6 +2,7 @@ package leo.AppCUI;
 
 import leo.ModeloBanco.Cliente.Cliente;
 import leo.ModeloBanco.Sucursal;
+import leo.ModeloBanco.Transferencia.Transferencia;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -59,6 +60,17 @@ public class CUI {
         return sc.nextLine();
     }
 
+    private Cliente scanValidateCliente(){
+        Cliente resultado;
+        System.out.println("Introduzca usuario del cliente: ");
+        resultado = dr.source.buscarUsername(scanValidate());
+        while (resultado == null){
+            System.out.println("Usuario no encontrado, intente de nuevo");
+            resultado = dr.source.buscarUsername(scanValidate());
+        }
+        return resultado;
+    }
+
     private int scanOptionList(String[] options){
         Scanner sc = new Scanner(System.in);
         printOptionList(options);
@@ -80,42 +92,45 @@ public class CUI {
     }
 
     public void sucursalMenu(){
-        String[] optionsMenu = new String[2];
-        optionsMenu[0] = "Consultar perfil de cliente";
-        optionsMenu[1] = "Volver";
+        String[] optionsMenu = {"Volver"};
 
-        printDataList(dr.clientelaToListString());
+        printDataList(sr.SucursalesToListString());
         switch (scanOptionList(optionsMenu)) {
-            case 0 -> clientMenu(); //Nada
-            case 1 -> mainMenu();
+            case 0 -> mainMenu();
         }
     }
 
     public void clientMenu() {
-        String[] optionsMenu = new String[2];
-        optionsMenu[0] = "Consultar perfil de cliente";
-        optionsMenu[1] = "Volver";
+        String[] optionsMenu = {"Volver"};
 
         printDataList(dr.clientelaToListString());
         switch (scanOptionList(optionsMenu)) {
-            case 0 -> clientMenu(); //Nada
-            case 1 -> mainMenu();
+            case 0 -> mainMenu();
         }
     }
 
     public void transferMenu() {
-        String[] optionsLabel = {"Seleccionar Emisor: ", "Seleccionar Destino: ", "Establecer Monto: ", "Volver"};
-        String[] optionsMenu = new String[4];
+        String[] optionsLabel = {"Seleccionar Emisor: ", "Seleccionar Destino: ", "Establecer Monto: ","Acreditar Transferencia", "Volver"};
+        String[] optionsMenu = new String[5];
+        String[] optionsValues = new String[3];
         for (int i = 0; i < optionsLabel.length; i++) {
             optionsMenu[i] = optionsLabel[i];
         }
 
-        printDataList(ar.auditToListString());
-        switch (scanOptionList(optionsMenu)) {
-            case 0 -> clientMenu();
-            case 1 -> transferMenu();
-            case 2 -> newClientMenu();
-            case 3 -> mainMenu();
+        int selection = scanOptionList(optionsMenu);
+        while (selection != 3 && selection != 4) {
+            optionsValues[selection] = scanValidate();
+            optionsMenu[selection] = optionsLabel[selection] + optionsValues[selection];
+            printOptionList(optionsMenu);
+            selection = scanOptionList(optionsMenu);
+        }
+
+        if (selection == 3) {
+            //new Transferencia.Builder(dr.source.buscarUsername(scanValidateCliente()));
+            System.out.println("Transferencia acreditada con éxito" + System.lineSeparator());
+            newClientMenu();
+        } else {
+            mainMenu();
         }
     }
 
@@ -138,7 +153,7 @@ public class CUI {
         if (selection == 5) {
             new Cliente.Builder(optionsValues[0], optionsValues[1],optionsValues[2],optionsValues[3], optionsValues[4])
                     .build(dr.source);
-            System.out.println("Sucursal.Cliente cargado con éxito" + System.lineSeparator());
+            System.out.println("Cliente cargado con éxito" + System.lineSeparator());
             newClientMenu();
         } else {
             mainMenu();
@@ -163,14 +178,15 @@ public class CUI {
 
 
     public void mainMenu(){
-        String[] optionsMenu = {"Clientes", "Transferencias", "Añadir Nuevo Sucursal.Cliente", "Balance Total", "Cambiar cuenta"};
+        String[] optionsMenu = {"Sucursales","Clientes", "Transferencias", "Añadir Nuevo Sucursal.Cliente", "Balance Total", "Cambiar cuenta"};
 
         printLogo();
         switch(scanOptionList(optionsMenu)){
-            case 0 -> clientMenu();
-            case 1 -> transferMenu();
-            case 2 -> newClientMenu();
-            case 3 -> balMenu();
+            case 0 -> sucursalMenu();
+            case 1 -> clientMenu();
+            case 2 -> transferMenu();
+            case 3 -> newClientMenu();
+            case 4 -> balMenu();
         }
     }
 }

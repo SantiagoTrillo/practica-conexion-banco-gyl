@@ -9,19 +9,18 @@ import santiago.modelo.Transaccion;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
-public class AdaptadorABancoLeo implements InterfaceABancoLeo {
-    @Override
-    public ArrayList<leo.ModeloBanco.Sucursal> traducirSucursalesDeSanti(ArrayList<santiago.modelo.Sucursal> sucursalesSanti) {
+public class AdaptadorABancoLeo {
+    public ArrayList<leo.ModeloBanco.Sucursal> adaptarSucursalesDeSanti(ArrayList<santiago.modelo.Sucursal> sucursalesSanti) {
         ArrayList<leo.ModeloBanco.Sucursal> sucursalesTraducidas = new ArrayList<>();
 
         for (santiago.modelo.Sucursal sucursalIterada : sucursalesSanti) {
-            leo.ModeloBanco.Sucursal sucursalTraducida = new leo.ModeloBanco.Sucursal(sucursalIterada.getNombre(), sucursalIterada.getNombre(), "Dato desconocido");
+            leo.ModeloBanco.Sucursal sucursalTraducida = new leo.ModeloBanco.Sucursal("[Banco Santi] " + sucursalIterada.getNombre(), sucursalIterada.getNombre(), "Dato desconocido");
 
             for (Cuenta cuentaIterada : sucursalIterada.getCuentas()) {
-                traducirCuentaACliente(cuentaIterada, sucursalTraducida);
+                adaptarCuentaACliente(cuentaIterada, sucursalTraducida);
 
                 for (Transaccion transaccionIterada : cuentaIterada.getHistorialTransacciones()) {
-                    traducirTransaccionATransferencia(transaccionIterada, sucursalTraducida);
+                    adaptarTransaccionATransferencia(transaccionIterada, sucursalTraducida);
                 }
             }
 
@@ -30,7 +29,7 @@ public class AdaptadorABancoLeo implements InterfaceABancoLeo {
         return sucursalesTraducidas;
     }
 
-    private Cliente traducirCuentaACliente(Cuenta cuentaATraducir, leo.ModeloBanco.Sucursal sucursalPortadora) {
+    public Cliente adaptarCuentaACliente(Cuenta cuentaATraducir, leo.ModeloBanco.Sucursal sucursalPortadora) {
         String usuarioTraducido = cuentaATraducir.getEmail();
         String contraseñaTraducida = String.valueOf(cuentaATraducir.getPin());
         String nombreTraducido = cuentaATraducir.getNombre();
@@ -43,9 +42,8 @@ public class AdaptadorABancoLeo implements InterfaceABancoLeo {
         return new Cliente.Builder(usuarioTraducido, contraseñaTraducida, nombreTraducido, "", "Dato desconocido").tipoCuenta(tipoCuentaTraducido).permisos("").build(sucursalPortadora.registro);
     }
 
-    private void traducirTransaccionATransferencia(Transaccion transaccionATraducir, leo.ModeloBanco.Sucursal sucursalPortadora) {
+    public void adaptarTransaccionATransferencia(Transaccion transaccionATraducir, leo.ModeloBanco.Sucursal sucursalPortadora) {
         Boolean tipoTranferenciaTraducido = null;
-        Transferencia transferenciaTraducida;
 
         if (transaccionATraducir.getTipoTransaccion() == TipoTransaccion.DEPOSITO) {
             tipoTranferenciaTraducido = true;
@@ -53,13 +51,13 @@ public class AdaptadorABancoLeo implements InterfaceABancoLeo {
             tipoTranferenciaTraducido = false;
         }
 
-        Cliente origenTraducido = traducirCuentaACliente(transaccionATraducir.getOrigen(), sucursalPortadora);
-        Cliente destinoTraducido = traducirCuentaACliente(transaccionATraducir.getDestino(), sucursalPortadora);
+        Cliente origenTraducido = adaptarCuentaACliente(transaccionATraducir.getOrigen(), sucursalPortadora);
+        Cliente destinoTraducido = adaptarCuentaACliente(transaccionATraducir.getDestino(), sucursalPortadora);
 
         if (tipoTranferenciaTraducido != null) {
-            transferenciaTraducida = new Transferencia.Builder(tipoTranferenciaTraducido, destinoTraducido, BigDecimal.valueOf(transaccionATraducir.getMonto())).fecha("Dato desconocido").acreditar(sucursalPortadora.auditor);
+            new Transferencia.Builder(tipoTranferenciaTraducido, destinoTraducido, BigDecimal.valueOf(transaccionATraducir.getMonto())).fecha("Dato desconocido").acreditar(sucursalPortadora.auditor);
         } else {
-            transferenciaTraducida = new Transferencia.Builder(origenTraducido, destinoTraducido, BigDecimal.valueOf(transaccionATraducir.getMonto())).fecha("Dato desconocido").acreditar(sucursalPortadora.auditor);
+            new Transferencia.Builder(origenTraducido, destinoTraducido, BigDecimal.valueOf(transaccionATraducir.getMonto())).fecha("Dato desconocido").acreditar(sucursalPortadora.auditor);
         }
     }
 }

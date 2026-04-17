@@ -8,13 +8,12 @@ import santiago.servicio.OperacionesBancarias;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
-public class AdaptadorABancoSantiago implements InterfaceABancoSantiago {
-    @Override
+public class AdaptadorABancoSantiago {
     public ArrayList<Sucursal> adaptarSucursalesDeLeo(ArrayList<leo.ModeloBanco.Sucursal> bancoLeo) {
         ArrayList<santiago.modelo.Sucursal> listaWrapper = new ArrayList<>();
 
         for (leo.ModeloBanco.Sucursal indexSucursal : bancoLeo) {
-            santiago.modelo.Sucursal wrapperSucursal = new Sucursal(indexSucursal.getNombre());
+            santiago.modelo.Sucursal wrapperSucursal = new Sucursal("Banco LEO " + indexSucursal.getNombre());
 
             for (Cliente indexCliente : indexSucursal.registro.getClientelaMap().values()){
 
@@ -35,10 +34,9 @@ public class AdaptadorABancoSantiago implements InterfaceABancoSantiago {
         return listaWrapper;
     }
 
-    @Override
     public Cuenta adaptarClienteDeLeo(santiago.modelo.Sucursal sucursalDestino, Cliente clienteLeo) {
         Cuenta wrapperCliente = sucursalDestino.crearCuenta(clienteLeo.getNombre(),
-                clienteLeo.getUsername(),
+                clienteLeo.getUsername() + "@bancoleo.com",
                 4040,
                 false,
                 TipoCuenta.BANCO_EXTERNO);
@@ -51,9 +49,8 @@ public class AdaptadorABancoSantiago implements InterfaceABancoSantiago {
         return wrapperCliente;
     }
 
-    @Override
     public void adaptarTransferenciaDeLeo(Cuenta cuentaDestino, Transferencia transferenciaLeo) {
-        Double monto = transferenciaLeo.getMonto().doubleValue();
+        double monto = transferenciaLeo.getMonto().doubleValue();
         switch (transferenciaLeo.getTransaccion()){
             case RETIRO -> OperacionesBancarias.retirar(cuentaDestino, monto);
             case DEPOSITO -> OperacionesBancarias.depositar(cuentaDestino, monto);

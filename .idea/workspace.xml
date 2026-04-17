@@ -4,19 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fa8e6f54-f8d9-4067-9ce1-ab69a48f8c7e" name="Changes" comment="FEATURE/ 16 - 04 /&#10;Creacion AdaptadorBancoLeo.java&#10;Se asigna packages leo y santiago a sus respectivos proyectos.">
-      <change afterPath="$PROJECT_DIR$/BancoLeonardo/src/main/java/leo/AppCUI/SucursalReader.java" afterDir="false" />
+    <list default="true" id="fa8e6f54-f8d9-4067-9ce1-ab69a48f8c7e" name="Changes" comment="WIP/ 17 - 04 /&#10;Se trabaja en conjunto en los Adaptadores">
+      <change afterPath="$PROJECT_DIR$/integracion/src/main/java/dominio/MediadorBancos.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BancoLeonardo/src/main/java/leo/AppCUI/CUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/BancoLeonardo/src/main/java/leo/AppCUI/CUI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BancoLeonardo/src/main/java/leo/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/BancoLeonardo/src/main/java/leo/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BancoLeonardo/src/main/java/leo/ServicioDataBase/DataBaseInjector.java" beforeDir="false" afterPath="$PROJECT_DIR$/BancoLeonardo/src/main/java/leo/ServicioDataBase/DataBaseInjector.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/integracion/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/integracion/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/integracion/src/main/java/dominio/MediadorBanco.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/integracion/src/main/java/dominio/MediadorBancoDefault.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/integracion/src/main/java/dominio/leo/InterfaceABancoLeo.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/integracion/src/main/java/dominio/santiago/AdaptadorABancoSantiago.java" beforeDir="false" afterPath="$PROJECT_DIR$/integracion/src/main/java/dominio/santiago/AdaptadorABancoSantiago.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/integracion/src/main/java/dominio/santiago/InterfaceABancoSantiago.java" beforeDir="false" />
     </list>
-    <list id="3867bc3a-88c1-431b-b18b-f9ee6b753899" name="Changes by strillo" comment="">
-      <change beforePath="$PROJECT_DIR$/integracion/src/main/java/dominio/MediadorBanco.java" beforeDir="false" afterPath="$PROJECT_DIR$/integracion/src/main/java/dominio/MediadorBanco.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/integracion/src/main/java/dominio/MediadorBancoDefault.java" beforeDir="false" afterPath="$PROJECT_DIR$/integracion/src/main/java/dominio/MediadorBancoDefault.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/integracion/src/main/java/dominio/leo/AdaptadorAABancoLeo.java" beforeDir="false" afterPath="$PROJECT_DIR$/integracion/src/main/java/dominio/leo/AdaptadorABancoLeo.java" afterDir="false" />
+    <list id="007dc272-28f4-4851-8ac7-feb95cbc242a" name="Changes by strillo" comment="">
+      <change beforePath="$PROJECT_DIR$/integracion/src/main/java/dominio/leo/AdaptadorABancoLeo.java" beforeDir="false" afterPath="$PROJECT_DIR$/integracion/src/main/java/dominio/leo/AdaptadorABancoLeo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/integracion/src/main/java/dominio/santiago/AdaptadorABancoSantiago.java" beforeDir="false" afterPath="$PROJECT_DIR$/integracion/src/main/java/dominio/santiago/AdaptadorABancoSantiago.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,6 +54,18 @@
     &quot;accountId&quot;: &quot;4101cab1-70b3-4aa4-9a67-6427daf52bc0&quot;
   }
 }</component>
+  <component name="LineStatusTrackerManager">
+    <file path="$PROJECT_DIR$/integracion/src/main/java/dominio/santiago/AdaptadorABancoSantiago.java">
+      <ranges>
+        <range start1="10" end1="12" start2="10" end2="11" changelist="fa8e6f54-f8d9-4067-9ce1-ab69a48f8c7e" />
+        <range start1="16" end1="17" start2="15" end2="16" changelist="fa8e6f54-f8d9-4067-9ce1-ab69a48f8c7e" />
+        <range start1="37" end1="38" start2="36" end2="36" changelist="fa8e6f54-f8d9-4067-9ce1-ab69a48f8c7e" />
+        <range start1="40" end1="41" start2="38" end2="39" changelist="fa8e6f54-f8d9-4067-9ce1-ab69a48f8c7e" />
+        <range start1="53" end1="54" start2="51" end2="51" changelist="fa8e6f54-f8d9-4067-9ce1-ab69a48f8c7e" />
+        <range start1="55" end1="56" start2="52" end2="53" changelist="007dc272-28f4-4851-8ac7-feb95cbc242a" />
+      </ranges>
+    </file>
+  </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 7
@@ -64,35 +78,43 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.IDE.editor.colors.com.intellij.cwm.plugin.common.options.CodeWithMeColorsPage&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Main (1).executor": "Run",
+    "Application.Main.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "reference.settingsdialog.IDE.editor.colors.com.intellij.cwm.plugin.common.options.CodeWithMeColorsPage"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="leo.AppCUI" />
       <recent name="dominio" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.Main (1)">
+    <configuration name="Main (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="integracion" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="leo.Main" />
       <module name="BankTallerPOOGyL" />
@@ -102,6 +124,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Main (1)" />
         <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
@@ -122,7 +145,15 @@
       <option name="project" value="LOCAL" />
       <updated>1776369929697</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Feature/17-04/&#10;Se concluyen adaptadores.&#10;Se empieza a trabajar en Mediador e integraciones a cada Banco">
+      <option name="closed" value="true" />
+      <created>1776445306099</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1776445306099</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -153,7 +184,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="FIX/ 16 - 04 /&#10;Arreglo de importaciones en BancoLeonardo" />
-    <option name="LAST_COMMIT_MESSAGE" value="FIX/ 16 - 04 /&#10;Arreglo de importaciones en BancoLeonardo" />
+    <MESSAGE value="Feature/17-04/&#10;Se concluyen adaptadores.&#10;Se empieza a trabajar en Mediador e integraciones a cada Banco" />
+    <option name="LAST_COMMIT_MESSAGE" value="Feature/17-04/&#10;Se concluyen adaptadores.&#10;Se empieza a trabajar en Mediador e integraciones a cada Banco" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
