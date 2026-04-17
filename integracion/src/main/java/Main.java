@@ -27,10 +27,13 @@ public class Main {
         switch (opcion) {
             case 1 -> {
                 DataBaseInjector objDB = new DataBaseInjector();
+                Banco objBancoSanti = Banco.getInstancia();
+                InicializadorBanco.inicializarBanco(objBancoSanti);
+
+                objDB.getSucursalList().addAll(mediador.getAdapterLeo().adaptarSucursalesDeSanti(objBancoSanti.getSucursales()));
                 CUI objCUI = new CUI();
                 while (true) {
                     UserLogin objUserLogin = new UserLogin(objDB);
-
                     objCUI.setActiveUser(objUserLogin);
                     objCUI.setSucursalList(objDB.getSucursalList());
 

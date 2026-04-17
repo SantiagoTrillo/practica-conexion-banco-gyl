@@ -4,22 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fa8e6f54-f8d9-4067-9ce1-ab69a48f8c7e" name="Changes" comment="WIP/ 17 - 04 /&#10;Se trabaja en conjunto en los Adaptadores">
-      <change afterPath="$PROJECT_DIR$/integracion/src/main/java/dominio/MediadorBancos.java" afterDir="false" />
+    <list default="true" id="fa8e6f54-f8d9-4067-9ce1-ab69a48f8c7e" name="Changes" comment="FEATURE/ 17 - 04 /&#10;Se implementa main de implementación, que carga ambos Bancos en una aplicación">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BancoLeonardo/src/main/java/leo/AppCUI/CUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/BancoLeonardo/src/main/java/leo/AppCUI/CUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BancoLeonardo/src/main/java/leo/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/BancoLeonardo/src/main/java/leo/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/integracion/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/integracion/src/main/java/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/integracion/src/main/java/dominio/MediadorBanco.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/integracion/src/main/java/dominio/MediadorBancoDefault.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/integracion/src/main/java/dominio/leo/InterfaceABancoLeo.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/integracion/src/main/java/dominio/santiago/AdaptadorABancoSantiago.java" beforeDir="false" afterPath="$PROJECT_DIR$/integracion/src/main/java/dominio/santiago/AdaptadorABancoSantiago.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/integracion/src/main/java/dominio/santiago/InterfaceABancoSantiago.java" beforeDir="false" />
     </list>
-    <list id="007dc272-28f4-4851-8ac7-feb95cbc242a" name="Changes by strillo" comment="">
-      <change beforePath="$PROJECT_DIR$/integracion/src/main/java/dominio/leo/AdaptadorABancoLeo.java" beforeDir="false" afterPath="$PROJECT_DIR$/integracion/src/main/java/dominio/leo/AdaptadorABancoLeo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/integracion/src/main/java/dominio/santiago/AdaptadorABancoSantiago.java" beforeDir="false" afterPath="$PROJECT_DIR$/integracion/src/main/java/dominio/santiago/AdaptadorABancoSantiago.java" afterDir="false" />
-    </list>
+    <list id="007dc272-28f4-4851-8ac7-feb95cbc242a" name="Changes by strillo" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -54,18 +43,6 @@
     &quot;accountId&quot;: &quot;4101cab1-70b3-4aa4-9a67-6427daf52bc0&quot;
   }
 }</component>
-  <component name="LineStatusTrackerManager">
-    <file path="$PROJECT_DIR$/integracion/src/main/java/dominio/santiago/AdaptadorABancoSantiago.java">
-      <ranges>
-        <range start1="10" end1="12" start2="10" end2="11" changelist="fa8e6f54-f8d9-4067-9ce1-ab69a48f8c7e" />
-        <range start1="16" end1="17" start2="15" end2="16" changelist="fa8e6f54-f8d9-4067-9ce1-ab69a48f8c7e" />
-        <range start1="37" end1="38" start2="36" end2="36" changelist="fa8e6f54-f8d9-4067-9ce1-ab69a48f8c7e" />
-        <range start1="40" end1="41" start2="38" end2="39" changelist="fa8e6f54-f8d9-4067-9ce1-ab69a48f8c7e" />
-        <range start1="53" end1="54" start2="51" end2="51" changelist="fa8e6f54-f8d9-4067-9ce1-ab69a48f8c7e" />
-        <range start1="55" end1="56" start2="52" end2="53" changelist="007dc272-28f4-4851-8ac7-feb95cbc242a" />
-      </ranges>
-    </file>
-  </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 7
@@ -153,7 +130,15 @@
       <option name="project" value="LOCAL" />
       <updated>1776445306099</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="FEATURE/ 17 - 04 /&#10;Se implementa main de implementación, que carga ambos Bancos en una aplicación">
+      <option name="closed" value="true" />
+      <created>1776448282164</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1776448282164</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -185,7 +170,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="FIX/ 16 - 04 /&#10;Arreglo de importaciones en BancoLeonardo" />
     <MESSAGE value="Feature/17-04/&#10;Se concluyen adaptadores.&#10;Se empieza a trabajar en Mediador e integraciones a cada Banco" />
-    <option name="LAST_COMMIT_MESSAGE" value="Feature/17-04/&#10;Se concluyen adaptadores.&#10;Se empieza a trabajar en Mediador e integraciones a cada Banco" />
+    <MESSAGE value="FEATURE/ 17 - 04 /&#10;Se implementa main de implementación, que carga ambos Bancos en una aplicación" />
+    <option name="LAST_COMMIT_MESSAGE" value="FEATURE/ 17 - 04 /&#10;Se implementa main de implementación, que carga ambos Bancos en una aplicación" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
