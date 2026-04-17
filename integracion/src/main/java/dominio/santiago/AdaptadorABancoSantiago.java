@@ -13,7 +13,7 @@ public class AdaptadorABancoSantiago {
         ArrayList<santiago.modelo.Sucursal> listaWrapper = new ArrayList<>();
 
         for (leo.ModeloBanco.Sucursal indexSucursal : bancoLeo) {
-            santiago.modelo.Sucursal wrapperSucursal = new Sucursal("Banco LEO " + indexSucursal.getNombre());
+            santiago.modelo.Sucursal wrapperSucursal = new Sucursal("[Banco Leo] " + indexSucursal.getNombre());
 
             for (Cliente indexCliente : indexSucursal.registro.getClientelaMap().values()){
 

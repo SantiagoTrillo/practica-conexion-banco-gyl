@@ -16,17 +16,18 @@ public class AdaptadorABancoLeo {
         ArrayList<leo.ModeloBanco.Sucursal> sucursalesTraducidas = new ArrayList<>();
 
         for (santiago.modelo.Sucursal sucursalIterada : sucursalesSanti) {
-            leo.ModeloBanco.Sucursal sucursalTraducida = new leo.ModeloBanco.Sucursal("[Banco Santi] " + sucursalIterada.getNombre(), sucursalIterada.getNombre(), "Dato desconocido");
+            if (!sucursalIterada.getNombre().contains("[Banco Leo] ")) {
+                leo.ModeloBanco.Sucursal sucursalTraducida = new leo.ModeloBanco.Sucursal("[Banco Santi] " + sucursalIterada.getNombre(), sucursalIterada.getNombre(), "Dato desconocido");
 
-            for (Cuenta cuentaIterada : sucursalIterada.getCuentas()) {
-                adaptarCuentaACliente(cuentaIterada, sucursalTraducida);
+                for (Cuenta cuentaIterada : sucursalIterada.getCuentas()) {
+                    adaptarCuentaACliente(cuentaIterada, sucursalTraducida);
 
-                for (Transaccion transaccionIterada : cuentaIterada.getHistorialTransacciones()) {
-                    adaptarTransaccionATransferencia(transaccionIterada, sucursalTraducida);
+                    for (Transaccion transaccionIterada : cuentaIterada.getHistorialTransacciones()) {
+                        adaptarTransaccionATransferencia(transaccionIterada, sucursalTraducida);
+                    }
                 }
+                sucursalesTraducidas.add(sucursalTraducida);
             }
-
-            sucursalesTraducidas.add(sucursalTraducida);
         }
         return sucursalesTraducidas;
     }

@@ -58,12 +58,8 @@ public class Cuenta {
 
     @Override
     public String toString() {
-        return "Nombre: " + nombre + '\n' +
-                "Email: " + email + '\n' +
-                "Pin: " + pin + '\n' +
-                "Saldo: $" + saldo + '\n' +
-                "Admin: " + admin + '\n' +
-                "santiago.modelo.Sucursal: " + sucursal.getNombre() + '\n' +
+        return "Nombre: " + nombre + '\n' + "|" + "Email: " + email + '\n' + "|" + "Pin: " + pin + '\n' + "|" + "Saldo: $" + saldo + '\n' +
+                "Sucursal: " + sucursal.getNombre() + '\n' +
                 "Tipo de cuenta: " + tipoCuenta + '\n';
     }
 

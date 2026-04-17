@@ -12,60 +12,74 @@ import santiago.ui.Menu;
 
 public class Main {
     public static void main(String[] args) {
+        boolean isRunning = true;
         Scanner teclado = new Scanner(System.in);
         MediadorBancos mediador = new MediadorBancos();
+        DataBaseInjector bancoLeo = new DataBaseInjector();
+        Banco bancoSanti = Banco.getInstancia();
 
-        System.out.println("""
-                ¿A qué banco le gustaría ingresar?
-                1) Banco Leonardo
-                2) Banco Santiago""");
-        int opcion = teclado.nextInt();
 
-        switch (opcion) {
-            case 1 -> {
-                DataBaseInjector objDB = new DataBaseInjector();
-                Banco objBancoSanti = Banco.getInstancia();
-                InicializadorBanco.inicializarBanco(objBancoSanti);
 
-                objDB.getSucursalList().addAll(mediador.getAdapterLeo().adaptarSucursalesDeSanti(objBancoSanti.getSucursales()));
-                CUI objCUI = new CUI();
-                while (true) {
-                    UserLogin objUserLogin = new UserLogin(objDB);
-                    objCUI.setActiveUser(objUserLogin);
-                    objCUI.setSucursalList(objDB.getSucursalList());
+        InicializadorBanco.inicializarBanco(bancoSanti);
 
-                    if (objUserLogin.isAdmin()) {
-                        objCUI.mainMenu();
-                    } else {
-                        System.out.println("Solo administradores por el momento" + System.lineSeparator());
+
+        //Inicializa
+        ArrayList<santiago.modelo.Sucursal> sucursalesAdaptadas = mediador.getAdapterSantiago().adaptarSucursalesDeLeo(bancoLeo.getSucursalList());
+        for (santiago.modelo.Sucursal sucursalIterada : sucursalesAdaptadas) {
+            bancoSanti.crearSucursal(sucursalIterada.getNombre());
+
+            if (bancoSanti.buscarSucursal(sucursalIterada.getNombre()) == null) {
+                bancoSanti.crearSucursal(sucursalIterada.getNombre());
+            }
+
+            Sucursal sucursalEspejo = bancoSanti.buscarSucursal(sucursalIterada.getNombre());
+
+            for (Cuenta cuentaIterada : sucursalIterada.getCuentas()) {
+                if (sucursalEspejo.buscarCuentaSucursal(cuentaIterada.getEmail()) == null) {
+                    Cuenta cuentaEspejo = sucursalEspejo.crearCuenta(cuentaIterada.getNombre(), cuentaIterada.getEmail(), cuentaIterada.getPin(), cuentaIterada.isAdmin(), cuentaIterada.getTipoCuenta());
+
+                    if (cuentaEspejo != null && cuentaIterada.getSaldo() > 0) {
+                        cuentaEspejo.agregarSaldo(cuentaIterada.getSaldo());
                     }
                 }
             }
-            case 2 -> {
-                DataBaseInjector bancoLeo = new DataBaseInjector();
-                Banco bancoSanti = Banco.getInstancia();
-                Menu menu = new Menu(bancoSanti);
+        }
 
-                InicializadorBanco.inicializarBanco(bancoSanti);
-                ArrayList<santiago.modelo.Sucursal> sucursalesTraducidas = mediador.getAdapterSantiago().adaptarSucursalesDeLeo(bancoLeo.getSucursalList());
-                for (santiago.modelo.Sucursal sucursalIterada : sucursalesTraducidas) {
-                    Sucursal sucursalEspejo = bancoSanti.buscarSucursal(sucursalIterada.getNombre());
+        bancoLeo.getSucursalList().addAll(mediador.getAdapterLeo().adaptarSucursalesDeSanti(bancoSanti.getSucursales()));
 
-                    if (sucursalEspejo == null) {
-                        bancoSanti.crearSucursal(sucursalIterada.getNombre());
-                    } else {
-                        for (Cuenta cuentaIterada : sucursalIterada.getCuentas()) {
-                            if (sucursalEspejo.buscarCuentaSucursal(cuentaIterada.getEmail()) == null) {
-                                Cuenta cuentaEspejo = sucursalEspejo.crearCuenta(cuentaIterada.getNombre(), cuentaIterada.getEmail(), cuentaIterada.getPin(), cuentaIterada.isAdmin(), cuentaIterada.getTipoCuenta());
+        while (isRunning) {
+            System.out.println("""
+                ¿A qué banco le gustaría ingresar? Ingrese 0 para salir
+                1) Banco Leonardo
+                2) Banco Santiago""");
+            int opcion = teclado.nextInt();
 
-                                if (cuentaEspejo != null && cuentaIterada.getSaldo() > 0) {
-                                    cuentaEspejo.agregarSaldo(cuentaIterada.getSaldo());
-                                }
-                            }
+            switch (opcion) {
+                case 1 -> {
+                    boolean leoIsRunning = true;
+
+                    CUI objCUI = new CUI();
+                    while (leoIsRunning) {
+                        UserLogin objUserLogin = new UserLogin(bancoLeo);
+                        objCUI.setActiveUser(objUserLogin);
+                        objCUI.setSucursalList(bancoLeo.getSucursalList());
+
+                        if (objUserLogin.isAdmin()) {
+                            leoIsRunning = objCUI.mainMenu();
+                        } else {
+                            System.out.println("Solo administradores por el momento" + System.lineSeparator());
+                            leoIsRunning = false;
                         }
                     }
                 }
-                menu.mostrarMenuBanco();
+                case 2 -> {
+                    Menu menu = new Menu(bancoSanti);
+
+
+                    menu.mostrarMenuBanco();
+                }
+                case 0 -> isRunning = false;
+                default -> System.out.println("\nOpción inválida\n");
             }
         }
     }

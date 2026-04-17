@@ -177,8 +177,8 @@ public class CUI {
     }
 
 
-    public void mainMenu(){
-        String[] optionsMenu = {"Sucursales","Clientes", "Transferencias", "Añadir Nuevo Sucursal.Cliente", "Balance Total", "Cambiar cuenta"};
+    public boolean mainMenu(){
+        String[] optionsMenu = {"Sucursales","Clientes", "Transferencias", "Añadir Nuevo Cliente", "Balance Total", "Cambiar cuenta", "Salir"};
 
         printLogo();
         switch(scanOptionList(optionsMenu)){
@@ -187,6 +187,8 @@ public class CUI {
             case 2 -> transferMenu();
             case 3 -> newClientMenu();
             case 4 -> balMenu();
+            case 5 -> {return true;}
         }
+        return false;
     }
 }
