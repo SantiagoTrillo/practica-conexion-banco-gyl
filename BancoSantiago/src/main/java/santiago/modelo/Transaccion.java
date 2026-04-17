@@ -20,6 +20,18 @@ public class Transaccion {
                 "Destino: " + (destino != null ? destino.getEmail() : "Ninguno") + '\n';
     }
 
+    public Cuenta getOrigen() {
+        return origen;
+    }
+
+    public Cuenta getDestino() {
+        return destino;
+    }
+
+    public double getMonto() {
+        return monto;
+    }
+
     public TipoTransaccion getTipoTransaccion() {
         return tipoTransaccion;
     }
