@@ -323,11 +323,10 @@ public class Menu {
 
         if (sucursalBuscada == null) {
             System.out.println("\nNo se encontró una sucursal con el nombre ingresado\n");
-            return;
-        }
-
-        for (Cuenta cuenta : sucursalBuscada.getCuentas()) {
-            System.out.println(cuenta);
+        } else {
+            for (Cuenta cuenta : sucursalBuscada.getCuentas()) {
+                System.out.println(cuenta);
+            }
         }
     }
 
