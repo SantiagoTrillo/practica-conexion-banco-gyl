@@ -10,9 +10,16 @@ public class CUI {
     // Command User Interface
     // Maneja el diseño y los prints de la interfaz
     private Sucursal sucursal;
+    private ArrayList<Sucursal> sucursalList;
     private UserLogin activeUser;
     private DataReader dr;
     private AuditReader ar;
+    private SucursalReader sr;
+
+    public void setSucursalList(ArrayList<Sucursal> sucursalList) {
+        this.sucursalList = sucursalList;
+        this.sr = new SucursalReader(sucursalList);
+    }
 
     public void setActiveUser(UserLogin user){
         this.activeUser = user;
@@ -36,7 +43,7 @@ public class CUI {
         }
     }
 
-    private void printDataList(ArrayList<String> data){
+    public void printDataList(ArrayList<String> data){
         printDataList(data, 20);
     }
 
@@ -70,6 +77,18 @@ public class CUI {
             }
         } while (userChoice <= 0 || userChoice > options.length);
         return userChoice - 1;
+    }
+
+    public void sucursalMenu(){
+        String[] optionsMenu = new String[2];
+        optionsMenu[0] = "Consultar perfil de cliente";
+        optionsMenu[1] = "Volver";
+
+        printDataList(dr.clientelaToListString());
+        switch (scanOptionList(optionsMenu)) {
+            case 0 -> clientMenu(); //Nada
+            case 1 -> mainMenu();
+        }
     }
 
     public void clientMenu() {

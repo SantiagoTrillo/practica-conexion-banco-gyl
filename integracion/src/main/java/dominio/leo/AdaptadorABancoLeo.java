@@ -18,10 +18,10 @@ public class AdaptadorABancoLeo implements InterfaceABancoLeo {
             leo.ModeloBanco.Sucursal sucursalTraducida = new leo.ModeloBanco.Sucursal(sucursalIterada.getNombre(), sucursalIterada.getNombre(), "Dato desconocido");
 
             for (Cuenta cuentaIterada : sucursalIterada.getCuentas()) {
-                Cliente clienteTraducido = traducirCuentaACliente(cuentaIterada, sucursalTraducida);
+                traducirCuentaACliente(cuentaIterada, sucursalTraducida);
 
                 for (Transaccion transaccionIterada : cuentaIterada.getHistorialTransacciones()) {
-                    Transferencia transferenciaTraducida = traducirTransaccionATransferencia(transaccionIterada, sucursalTraducida);
+                    traducirTransaccionATransferencia(transaccionIterada, sucursalTraducida);
                 }
             }
 
@@ -43,7 +43,7 @@ public class AdaptadorABancoLeo implements InterfaceABancoLeo {
         return new Cliente.Builder(usuarioTraducido, contraseñaTraducida, nombreTraducido, "", "Dato desconocido").tipoCuenta(tipoCuentaTraducido).permisos("").build(sucursalPortadora.registro);
     }
 
-    private Transferencia traducirTransaccionATransferencia(Transaccion transaccionATraducir, leo.ModeloBanco.Sucursal sucursalPortadora) {
+    private void traducirTransaccionATransferencia(Transaccion transaccionATraducir, leo.ModeloBanco.Sucursal sucursalPortadora) {
         Boolean tipoTranferenciaTraducido = null;
         Transferencia transferenciaTraducida;
 
@@ -61,7 +61,5 @@ public class AdaptadorABancoLeo implements InterfaceABancoLeo {
         } else {
             transferenciaTraducida = new Transferencia.Builder(origenTraducido, destinoTraducido, BigDecimal.valueOf(transaccionATraducir.getMonto())).fecha("Dato desconocido").acreditar(sucursalPortadora.auditor);
         }
-
-        return transferenciaTraducida;
     }
 }

@@ -11,6 +11,7 @@ public class Main {
         while (true){
         UserLogin objUserLogin = new UserLogin(objDB);
         objCUI.setActiveUser(objUserLogin);
+        objCUI.setSucursalList(objDB.getSucursalList());
 
         if (objUserLogin.isAdmin()) {
             objCUI.mainMenu();

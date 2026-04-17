@@ -12,7 +12,7 @@ import java.util.List;
 //Todas estas inyecciones son hard-codeadas a modo de ejemplo
 
 public class DataBaseInjector {
-    private List<Sucursal> sucursalList;
+    private ArrayList<Sucursal> sucursalList;
     public DataBaseInjector(){
         sucursalList = new ArrayList<>();
         cargarSucursales();
@@ -21,7 +21,7 @@ public class DataBaseInjector {
         cargarClientes(getCentral());
     }
 
-    public List<Sucursal> getSucursalList() {
+    public ArrayList<Sucursal> getSucursalList() {
         return sucursalList;
     }
 

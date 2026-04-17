@@ -23,7 +23,10 @@ public class AdaptadorABancoSantiago implements InterfaceABancoSantiago {
                 //Logica de Historial Transacciones
 
                 for (Transferencia indexTransferencia : indexSucursal.auditor.getAuditoria()){
-
+                    if (indexTransferencia.getEmisor().getUsername().equals(indexCliente.getUsername()) || indexTransferencia.getReceptor().getUsername().equals(indexCliente.getUsername()))
+                    {
+                        adaptarTransferenciaDeLeo(wrapperCuenta, indexTransferencia);
+                    }
                 }
 
             }
@@ -50,23 +53,31 @@ public class AdaptadorABancoSantiago implements InterfaceABancoSantiago {
 
     @Override
     public void adaptarTransferenciaDeLeo(Cuenta cuentaDestino, Transferencia transferenciaLeo) {
+        Double monto = transferenciaLeo.getMonto().doubleValue();
         switch (transferenciaLeo.getTransaccion()){
-            case RETIRO -> OperacionesBancarias.retirar(cuentaDestino, transferenciaLeo.getMonto().doubleValue());
-            case DEPOSITO -> OperacionesBancarias.depositar(cuentaDestino, transferenciaLeo.getMonto().doubleValue());
-            case TRANSFERENCIA -> {
-                if (cuentaDestino.getEmail().equals(transferenciaLeo.getEmisor().getUsername())){
-                    cuentaDestino.restarSaldo(monto);
-                    Transaccion transaccionEnviada = new Transaccion(transferente, transferido, monto, TipoTransaccion.TRANSFERENCIA_ENVIADA);
-                    transferente.agregarTransaccionHistorial(transaccionEnviada);
+            case RETIRO -> OperacionesBancarias.retirar(cuentaDestino, monto);
+            case DEPOSITO -> OperacionesBancarias.depositar(cuentaDestino, monto);
+            case TRANSFERENCIA ->
+                {
+                    Cuenta transferente, transferido;
+
+                    if (cuentaDestino.getEmail().equals(transferenciaLeo.getEmisor().getUsername())) {
+                        transferente = cuentaDestino;
+                        transferido = adaptarClienteDeLeo(new Sucursal("placeholder"), transferenciaLeo.getReceptor());
+
+                        transferente.restarSaldo(monto);
+                        Transaccion transaccionEnviada = new Transaccion(transferente, transferido, monto, TipoTransaccion.TRANSFERENCIA_ENVIADA);
+                        transferente.agregarTransaccionHistorial(transaccionEnviada);
+                    }
+                    else if (cuentaDestino.getEmail().equals(transferenciaLeo.getReceptor().getUsername())){
+                        transferente = adaptarClienteDeLeo(new Sucursal("placeholder"), transferenciaLeo.getEmisor());
+                        transferido = cuentaDestino;
+
+                        transferido.agregarSaldo(monto);
+                        Transaccion transaccionRecibida = new Transaccion(transferente, transferido, monto, TipoTransaccion.TRANSFERENCIA_RECIBIDA);
+                        transferido.agregarTransaccionHistorial(transaccionRecibida);
+                    }
                 }
-
-
-                transferido.agregarSaldo(monto);
-
-                Transaccion transaccionRecibida = new Transaccion(transferente, transferido, monto, TipoTransaccion.TRANSFERENCIA_RECIBIDA);
-
-                transferido.agregarTransaccionHistorial(transaccionRecibida);
-            };
         }
     }
 }
