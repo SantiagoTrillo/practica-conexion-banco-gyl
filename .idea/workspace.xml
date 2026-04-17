@@ -4,6 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< Updated upstream
     <list default="true" id="fa8e6f54-f8d9-4067-9ce1-ab69a48f8c7e" name="Changes" comment="FEATURE/ 16 - 04 /&#10;Creacion AdaptadorBancoLeo.java&#10;Se asigna packages leo y santiago a sus respectivos proyectos.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/integracion/src/main/java/dominio/leo/AdaptadorBancoLeo.java" beforeDir="false" afterPath="$PROJECT_DIR$/integracion/src/main/java/dominio/santiago/AdaptadorABancoSantiago.java" afterDir="false" />
@@ -17,6 +18,14 @@
       <change beforePath="$PROJECT_DIR$/integracion/src/main/java/dominio/leo/AdaptadorBancoLeo.java" beforeDir="false" afterPath="$PROJECT_DIR$/integracion/src/main/java/dominio/santiago/AdaptadorABancoSantiago.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/integracion/src/main/java/dominio/santiago/AdaptadorBancoSantiago.java" beforeDir="false" afterPath="$PROJECT_DIR$/integracion/src/main/java/dominio/leo/AdaptadorAABancoLeo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/integracion/src/main/java/dominio/santiago/InterfaceBancoSantiago.java" beforeDir="false" afterPath="$PROJECT_DIR$/integracion/src/main/java/dominio/leo/InterfaceABancoLeo.java" afterDir="false" />
+=======
+    <list default="true" id="fa8e6f54-f8d9-4067-9ce1-ab69a48f8c7e" name="Changes" comment="HOTFIX/ 17 - 04 /&#10;Se corrige main de implementación, que carga ambos Bancos en una aplicación">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BancoLeonardo/src/main/java/leo/AppCUI/CUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/BancoLeonardo/src/main/java/leo/AppCUI/CUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/integracion/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/integracion/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/integracion/src/main/java/dominio/leo/AdaptadorABancoLeo.java" beforeDir="false" afterPath="$PROJECT_DIR$/integracion/src/main/java/dominio/leo/AdaptadorABancoLeo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/integracion/src/main/java/dominio/santiago/AdaptadorABancoSantiago.java" beforeDir="false" afterPath="$PROJECT_DIR$/integracion/src/main/java/dominio/santiago/AdaptadorABancoSantiago.java" afterDir="false" />
+>>>>>>> Stashed changes
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -158,7 +167,35 @@
       <option name="project" value="LOCAL" />
       <updated>1776369929697</updated>
     </task>
+<<<<<<< Updated upstream
     <option name="localTasksCounter" value="2" />
+=======
+    <task id="LOCAL-00002" summary="Feature/17-04/&#10;Se concluyen adaptadores.&#10;Se empieza a trabajar en Mediador e integraciones a cada Banco">
+      <option name="closed" value="true" />
+      <created>1776445306099</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1776445306099</updated>
+    </task>
+    <task id="LOCAL-00003" summary="FEATURE/ 17 - 04 /&#10;Se implementa main de implementación, que carga ambos Bancos en una aplicación">
+      <option name="closed" value="true" />
+      <created>1776448282164</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1776448282164</updated>
+    </task>
+    <task id="LOCAL-00004" summary="HOTFIX/ 17 - 04 /&#10;Se corrige main de implementación, que carga ambos Bancos en una aplicación">
+      <option name="closed" value="true" />
+      <created>1776448863063</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1776448863063</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
+>>>>>>> Stashed changes
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -189,7 +226,35 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="FIX/ 16 - 04 /&#10;Arreglo de importaciones en BancoLeonardo" />
+<<<<<<< Updated upstream
     <option name="LAST_COMMIT_MESSAGE" value="FIX/ 16 - 04 /&#10;Arreglo de importaciones en BancoLeonardo" />
+=======
+    <MESSAGE value="Feature/17-04/&#10;Se concluyen adaptadores.&#10;Se empieza a trabajar en Mediador e integraciones a cada Banco" />
+    <MESSAGE value="FEATURE/ 17 - 04 /&#10;Se implementa main de implementación, que carga ambos Bancos en una aplicación" />
+    <MESSAGE value="HOTFIX/ 17 - 04 /&#10;Se corrige main de implementación, que carga ambos Bancos en una aplicación" />
+    <option name="LAST_COMMIT_MESSAGE" value="HOTFIX/ 17 - 04 /&#10;Se corrige main de implementación, que carga ambos Bancos en una aplicación" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/integracion/src/main/java/dominio/santiago/AdaptadorABancoSantiago.java</url>
+          <line>14</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/integracion/src/main/java/dominio/santiago/AdaptadorABancoSantiago.java</url>
+          <line>34</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/integracion/src/main/java/dominio/santiago/AdaptadorABancoSantiago.java</url>
+          <line>49</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+>>>>>>> Stashed changes
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

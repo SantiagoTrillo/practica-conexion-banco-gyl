@@ -20,12 +20,9 @@ public class AdaptadorABancoSantiago implements InterfaceABancoSantiago {
 
                 Cuenta wrapperCuenta = adaptarClienteDeLeo(wrapperSucursal, indexCliente);
 
-                //Logica de Historial Transacciones
-
                 for (Transferencia indexTransferencia : indexSucursal.auditor.getAuditoria()){
 
                 }
-
             }
             listaWrapper.add(wrapperSucursal);
         }

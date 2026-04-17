@@ -85,18 +85,43 @@ public class CUI {
     }
 
     public void transferMenu() {
+<<<<<<< Updated upstream
         String[] optionsLabel = {"Seleccionar Emisor: ", "Seleccionar Destino: ", "Establecer Monto: ", "Volver"};
         String[] optionsMenu = new String[4];
+=======
+        String[] optionsLabel = {"Seleccionar Emisor: ", "Seleccionar Destino: ", "Establecer Monto: ","Acreditar Transferencia", "Volver"};
+        String[] optionsMenu = new String[5];
+        String[] optionsValues = new String[3];
+
+        printDataList(ar.auditToListString());
+>>>>>>> Stashed changes
         for (int i = 0; i < optionsLabel.length; i++) {
             optionsMenu[i] = optionsLabel[i];
         }
 
+<<<<<<< Updated upstream
         printDataList(ar.auditToListString());
         switch (scanOptionList(optionsMenu)) {
             case 0 -> clientMenu();
             case 1 -> transferMenu();
             case 2 -> newClientMenu();
             case 3 -> mainMenu();
+=======
+        int selection = scanOptionList(optionsMenu);
+        while (selection != 3 && selection != 4) {
+            optionsValues[selection] = scanValidate();
+            optionsMenu[selection] = optionsLabel[selection] + optionsValues[selection];
+            printOptionList(optionsMenu);
+            selection = scanOptionList(optionsMenu);
+        }
+
+        if (selection == 3) {
+            //new Transferencia.Builder(());
+            System.out.println("Transferencia acreditada con éxito" + System.lineSeparator());
+            newClientMenu();
+        } else {
+            mainMenu();
+>>>>>>> Stashed changes
         }
     }
 
