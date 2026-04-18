@@ -133,7 +133,7 @@ public class CUI {
     public void sucursalMenu(){
         String[] optionsMenu = {"Volver"};
 
-        printDataList(sr.SucursalesToListString());
+        printDataList(sr.getSucursalesPropiasToListString());
         switch (scanOptionList(optionsMenu)) {
             case 0 -> mainMenu();
         }

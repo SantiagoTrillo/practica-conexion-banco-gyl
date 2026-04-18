@@ -27,8 +27,8 @@ public class Main {
             int opcion = TECLADO.nextInt();
 
             switch (opcion) {
-                case 1 -> {new leo.App(BANCO_LEO);}
-                case 2 -> {new Menu(BANCO_SANTI).mostrarMenuBanco();}
+                case 1 -> new leo.App(BANCO_LEO);
+                case 2 -> new Menu(BANCO_SANTI).mostrarMenuBanco();
                 case 0 -> isRunning = false;
                 default -> System.out.println("\nOpción inválida\n");
             }

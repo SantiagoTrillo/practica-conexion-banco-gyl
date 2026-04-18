@@ -45,6 +45,7 @@ public class AuditReader {
 
     public ArrayList<String> makeListString(ArrayList<Transferencia> audit){
         ArrayList<String> result = new ArrayList<>();
+        if (audit == null) {return result;}
         audit.forEach(t -> result.add(logToString(t)));
         return result;
     }
