@@ -52,6 +52,9 @@ public class AdaptadorABancoSantiago {
 
     public void adaptarTransferenciaDeLeo(Cuenta cuentaDestino, Transferencia transferenciaLeo) {
         double monto = transferenciaLeo.getMonto().doubleValue();
+        String emailEmisorLeo = construirEmailLeo(transferenciaLeo.getEmisor().getUsername());
+        String emailReceptorLeo = construirEmailLeo(transferenciaLeo.getReceptor().getUsername());
+
         switch (transferenciaLeo.getTransaccion()){
             case RETIRO -> OperacionesBancarias.retirar(cuentaDestino, monto);
             case DEPOSITO -> OperacionesBancarias.depositar(cuentaDestino, monto);
@@ -59,7 +62,7 @@ public class AdaptadorABancoSantiago {
                 {
                     Cuenta transferente, transferido;
 
-                    if (cuentaDestino.getEmail().equals(transferenciaLeo.getEmisor().getUsername())) {
+                    if (cuentaDestino.getEmail().equals(emailEmisorLeo)) {
                         transferente = cuentaDestino;
                         transferido = adaptarClienteDeLeo(new Sucursal("placeholder"), transferenciaLeo.getReceptor());
 
@@ -67,7 +70,7 @@ public class AdaptadorABancoSantiago {
                         Transaccion transaccionEnviada = new Transaccion(transferente, transferido, monto, TipoTransaccion.TRANSFERENCIA_ENVIADA);
                         transferente.agregarTransaccionHistorial(transaccionEnviada);
                     }
-                    else if (cuentaDestino.getEmail().equals(transferenciaLeo.getReceptor().getUsername())){
+                    else if (cuentaDestino.getEmail().equals(emailReceptorLeo)){
                         transferente = adaptarClienteDeLeo(new Sucursal("placeholder"), transferenciaLeo.getEmisor());
                         transferido = cuentaDestino;
 
@@ -77,5 +80,9 @@ public class AdaptadorABancoSantiago {
                     }
                 }
         }
+    }
+
+    private String construirEmailLeo(String usernameLeo) {
+        return usernameLeo + "@bancoleo.com";
     }
 }
