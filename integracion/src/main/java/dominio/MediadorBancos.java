@@ -1,7 +1,11 @@
 package dominio;
 
 import dominio.leo.AdaptadorABancoLeo;
+import dominio.leo.modelo.DataBaseAdaptada;
 import dominio.santi.AdaptadorABancoSantiago;
+import leo.ModeloBanco.Cliente.Cliente;
+import leo.ModeloBanco.Transferencia.InterfaceTransferencia;
+import leo.ModeloBanco.Transferencia.Transferencia;
 import leo.ServicioDataBase.DataBase;
 import santi.modelo.Banco;
 import santi.modelo.Cuenta;
@@ -66,11 +70,31 @@ public class MediadorBancos {
                 if (sucursalEspejo.buscarCuentaSucursal(cuentaIterada.getEmail()) == null) {
                     Cuenta cuentaEspejo = sucursalEspejo.crearCuenta(cuentaIterada.getNombre(), cuentaIterada.getEmail(), cuentaIterada.getPin(), cuentaIterada.isAdmin(), cuentaIterada.getTipoCuenta());
 
+
+                    if (BANCO_LEO instanceof DataBaseAdaptada) {
+                        comprobarTransferenciasExternas(cuentaEspejo, ((DataBaseAdaptada) BANCO_LEO).getTransferenciasExternas());
+                    }
+
                     if (cuentaEspejo != null && cuentaIterada.getSaldo() > 0) {
                         cuentaEspejo.agregarSaldo(cuentaIterada.getSaldo());
                     }
                 }
             }
         }
+    }
+
+    private void comprobarTransferenciasExternas(Cuenta cuentaDestino, InterfaceTransferencia transferenciasExternasDeLeo){
+        if (transferenciasExternasDeLeo.getLogSize() > 0) {
+            for (Transferencia transferenciaIterada : transferenciasExternasDeLeo.getAuditoria()) {
+                if (compararCuentaEntreBancos(cuentaDestino, transferenciaIterada.getEmisor())
+                        || compararCuentaEntreBancos(cuentaDestino, transferenciaIterada.getReceptor())) {
+                    adapterSantiago.adaptarTransferenciaDeLeo(cuentaDestino, transferenciaIterada);
+                }
+            }
+        }
+    }
+
+    private boolean compararCuentaEntreBancos(Cuenta cuentaSantiago, Cliente clienteLeo){
+        return cuentaSantiago.getEmail().equals(clienteLeo.getUsername() + "@bancoleo.com");
     }
 }
