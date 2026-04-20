@@ -65,20 +65,17 @@ public class AdaptadorABancoLeo {
     }
 
     public void adaptarTransaccionATransferencia(Transaccion transaccionATraducir, leo.ModeloBanco.Sucursal sucursalPortadora) {
-        Boolean esDepositoTraducido = null;
+        Cliente origenTraducido, destinoTraducido;
 
         if (transaccionATraducir.getTipoTransaccion() == TipoTransaccion.DEPOSITO) {
-            esDepositoTraducido = true;
+            destinoTraducido = adaptarCuentaACliente(transaccionATraducir.getDestino(), sucursalPortadora);
+            new Transferencia.Builder(true, destinoTraducido, BigDecimal.valueOf(transaccionATraducir.getMonto())).fecha("Dato desconocido").acreditar(sucursalPortadora.auditor);
         } else if (transaccionATraducir.getTipoTransaccion() == TipoTransaccion.RETIRO) {
-            esDepositoTraducido = false;
-        }
-
-        Cliente destinoTraducido = adaptarCuentaACliente(transaccionATraducir.getDestino(), sucursalPortadora);
-
-        if (esDepositoTraducido != null) {
-            new Transferencia.Builder(esDepositoTraducido, destinoTraducido, BigDecimal.valueOf(transaccionATraducir.getMonto())).fecha("Dato desconocido").acreditar(sucursalPortadora.auditor);
-        } else {
-            Cliente origenTraducido = adaptarCuentaACliente(transaccionATraducir.getOrigen(), sucursalPortadora);
+            destinoTraducido = adaptarCuentaACliente(transaccionATraducir.getOrigen(), sucursalPortadora);
+            new Transferencia.Builder(false, destinoTraducido, BigDecimal.valueOf(transaccionATraducir.getMonto())).fecha("Dato desconocido").acreditar(sucursalPortadora.auditor);
+        } else{
+            origenTraducido = adaptarCuentaACliente(transaccionATraducir.getOrigen(), sucursalPortadora);
+            destinoTraducido = adaptarCuentaACliente(transaccionATraducir.getDestino(), sucursalPortadora);
             new Transferencia.Builder(origenTraducido, destinoTraducido, BigDecimal.valueOf(transaccionATraducir.getMonto())).fecha("Dato desconocido").acreditar(sucursalPortadora.auditor);
         }
     }
