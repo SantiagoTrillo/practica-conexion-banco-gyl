@@ -68,6 +68,14 @@ public class Transferencia {
             if (this.transaccion != TipoTransaccion.DEPOSITO) {
                 emisor.restarSaldo(monto);
             }
+            return registrar(auditor);
+        }
+
+        public Transferencia registrar(InterfaceTransferencia auditor){
+            if (!this.validar(auditor)){
+                System.out.println("Problema al validar transferencia, verifique los datos");
+                return null;
+            }
             Transferencia builtTransferencia = new Transferencia(this);
             auditor.cargar(builtTransferencia);
             return builtTransferencia;

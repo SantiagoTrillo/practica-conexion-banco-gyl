@@ -189,7 +189,7 @@ public class CUI {
                                 Sucursal sucursalExterna = sr.hasCliente(receptor.getUsername());
                                 new Transferencia.Builder(activeUser.getCuenta(), receptor, monto)
                                         .fecha(LocalDateTime.now().toString())
-                                        .acreditar(sucursalExterna.auditor);
+                                        .registrar(sucursalExterna.auditor);
                             }
                             System.out.println("Transferencia acreditada exitosamente");
                             selection = 3;
@@ -234,13 +234,13 @@ public class CUI {
                             Sucursal sucursalExterna = sr.hasCliente(optionsValues[0].getUsername());
                             new Transferencia.Builder(optionsValues[0], optionsValues[1], monto)
                                     .fecha(LocalDateTime.now().toString())
-                                    .acreditar(sucursalExterna.auditor);
+                                    .registrar(sucursalExterna.auditor);
                         }
                         if (dr.source.buscarUsername(optionsValues[1].getUsername()) == null){
                             Sucursal sucursalExterna = sr.hasCliente(optionsValues[1].getUsername());
                             new Transferencia.Builder(optionsValues[0], optionsValues[1], monto)
                                     .fecha(LocalDateTime.now().toString())
-                                    .acreditar(sucursalExterna.auditor);
+                                    .registrar(sucursalExterna.auditor);
                         }
                         System.out.println("Transferencia creada y acreditada exitosamente");
                         selection = 4;
