@@ -15,5 +15,9 @@ public class DataBase {
         return sucursalList.get(index);
     }
 
+    public void setSucursalList(ArrayList<Sucursal> sucursalList) {
+        this.sucursalList = sucursalList;
+    }
+
     public void cargarSucursal(Sucursal sucursal) {sucursalList.add(sucursal);}
 }

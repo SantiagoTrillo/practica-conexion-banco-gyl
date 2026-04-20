@@ -7,7 +7,6 @@ import santi.modelo.Banco;
 import santi.modelo.Cuenta;
 import santi.modelo.Sucursal;
 
-import javax.print.attribute.standard.Media;
 import java.util.ArrayList;
 
 public class MediadorBancos {
@@ -23,6 +22,22 @@ public class MediadorBancos {
         this.BANCO_SANTI = bancoSanti;
     }
 
+    public DataBase getBANCO_LEO() {
+        return BANCO_LEO;
+    }
+
+    public Banco getBANCO_SANTI() {
+        return BANCO_SANTI;
+    }
+
+    public void setBANCO_LEO(DataBase nuevoBancoLeo) {
+        this.BANCO_LEO = nuevoBancoLeo;
+    }
+
+    public void setBANCO_SANTI(Banco nuevoBancoSanti) {
+        this.BANCO_SANTI = nuevoBancoSanti;
+    }
+
     public AdaptadorABancoLeo getAdapterLeo() {
         return adapterLeo;
     }
@@ -32,17 +47,11 @@ public class MediadorBancos {
     }
 
     public void sincronizarBancos() {
-        limpiarIntegracionAnterior();
 
         ArrayList<Sucursal> sucursalesAdaptadas = getAdapterSantiago().adaptarSucursalesDeLeo(BANCO_LEO.getSucursalList());
         agregarSucursalesAdaptadas(sucursalesAdaptadas);
 
         BANCO_LEO.getSucursalList().addAll(getAdapterLeo().adaptarSucursalesDeSanti(BANCO_SANTI.getSucursales()));
-    }
-
-    private void limpiarIntegracionAnterior() {
-        BANCO_SANTI.eliminarSucursalesConPrefijo(PREFIJO_SUCURSAL_LEO_EN_SANTI);
-        BANCO_LEO.getSucursalList().removeIf(sucursal -> sucursal.getNombre().startsWith(PREFIJO_SUCURSAL_SANTI_EN_LEO));
     }
 
     private void agregarSucursalesAdaptadas (ArrayList<santi.modelo.Sucursal> sucursalesAdaptadas) {
